@@ -1,0 +1,27 @@
+# config.yaml
+data:
+  # Folders
+  raw_path: "data/raw/"             # folder containing original raw data files
+  processed_path: "data/processed/" # folder to store cleaned/processed data
+  external_path: "data/external/"   # optional: external datasets
+
+features:
+  # Specific files
+  train_features_path: "features/features_train.csv"  # processed training features
+  test_features_path: "features/features_test.csv"    # processed test features
+  selected_features_path: "features/selected_features.csv"  # optional: after feature selection
+
+models:
+  # Folder for saving trained models
+  output_path: "models/trained_models/"
+  # Specific model file (optional if you save multiple models)
+  random_forest_model: "models/trained_models/random_forest.pkl"
+
+training:
+  random_seed: 42
+  n_estimators: 100
+  max_depth: 10
+  test_size: 0.2
+
+logging:
+  log_path: "logs/training.log"      # path to save logs

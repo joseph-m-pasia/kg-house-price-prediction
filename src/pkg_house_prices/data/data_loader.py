@@ -1,9 +1,8 @@
-import pandas as pd
 from pathlib import Path
-from pkg_house_prices.utils.config import CONFIG  # import the shared CONFIG
+import pandas as pd
+from pkg_house_prices.utils.config import CONFIG
 
-
-def load_data(train_path, test_path):
+def load_data(CONFIG):
 
     train_path = Path(CONFIG["data"]["train"])
     test_path  = Path(CONFIG["data"]["test"])

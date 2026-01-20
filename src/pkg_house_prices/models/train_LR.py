@@ -1,4 +1,5 @@
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
@@ -6,32 +7,65 @@ import joblib
 from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.features.build_features import train_final, test_final
 from pkg_house_prices.utils.config import CONFIG
+from sklearn.model_selection import GridSearchCV
 
-def train_model(X_train, y_train):
+
+def train_model(X_train, y_train, model_type='linear'):
     """
     Train a Linear Regression model using sklearn Pipeline.
-
+    Supports Linear, Ridge, Lasso, and ElasticNet regression.
+    
     Parameters
     ----------
     X_train : pd.DataFrame or np.ndarray
         Training features
     y_train : pd.Series or np.ndarray
         Target variable
-
+    model_type : str
+        Type of regression model to train: 'linear', 'ridge', 'lasso', 'elasticnet'
     Returns
     -------
     model : sklearn Pipeline
         Trained linear regression pipeline
     """
+    model_type = model_type.lower()
+    logger.info(f"train_model() - Training model of type: {model_type} ...")         
+    if model_type == 'linear':      
+        regressor = LinearRegression()
+        param_grid = {}
+    elif model_type == 'ridge':
+        regressor = Ridge()
+        param_grid = {'regressor__alpha': CONFIG["params"]["regressor_alpha"]}
+    elif model_type == 'lasso':
+        regressor = Lasso()
+        param_grid = {'regressor__alpha': CONFIG["params"]["regressor_alpha"]}
+    elif model_type == 'elasticnet':
+        regressor = ElasticNet()
+        param_grid = {'regressor__alpha': CONFIG["params"]["regressor_alpha"],
+                      'regressor__l1_ratio': CONFIG["params"]["regressor__l1_ratio"]}
+    else:
+         raise ValueError("model_type must be one of 'linear', 'ridge', 'lasso', 'elasticnet'")   
 
     logger.info("train_model() - Training LinearRegression model: Define Pipeline   ...")
     model = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='mean')),
         ('scaler', StandardScaler()),
-        ('regressor', LinearRegression())
+        ('regressor', regressor)
     ])
     logger.info("train_model() - Fitting pipeline...")
-    model.fit(X_train, y_train)
+
+    if param_grid:
+        logger.info("train_model() - Performing GridSearchCV for hyperparameter tuning...")
+        grid_search = GridSearchCV(model, param_grid, cv=CONFIG["params"]["cv_size"], scoring='r2', n_jobs=-1)
+        grid_search.fit(X_train, y_train)
+        model = grid_search.best_estimator_
+        logger.info(f"train_model() - Best parameters found: {grid_search.best_params_}")
+    else:
+        logger.info("train_model() - No hyperparameter tuning for Linear Regression.")              
+        model.fit(X_train, y_train)
+        best_score = cross_val_score(model, X_train, y_train, cv=CONFIG["params"]["cv_size"], scoring='r2').mean()
+        logger.info(f"train_model() - CV R^2 score: {best_score:.4f}")
+
 
     logger.info("train_model() - Dumping pipeline...")
     joblib.dump(model, 'deployment/linear_regression.joblib')
@@ -48,5 +82,8 @@ nan_columns = X_train.columns[X_train.isna().any()].tolist()
 logger.info(f"Columns in X_train with NaN values: {nan_columns}")
 
 # Train the model
-linear_regression_model = train_model(X_train, y_train)
+lr_model = train_model(X_train, y_train, "linear")
+lasso_model = train_model(X_train, y_train, "lasso")
+ridge_model = train_model(X_train, y_train, "ridge")
+elasticnet_model = train_model(X_train, y_train, "elasticnet")   
 

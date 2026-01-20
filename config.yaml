@@ -31,7 +31,11 @@ params:
   learning_rate: 0.01
   batch_size: 32
   epochs: 100
-  missing_threshold: 00            # threshold for dropping columns with too many missing values
+  missing_threshold: 0.0                         # threshold for dropping columns with too many missing values
+  regressor_alpha: [0.01, 0.1, 1.0, 10.0, 100.0] # list of alpha values for regularization tuning
+  regressor__l1_ratio: [0.1, 0.5, 0.9]           # list of l1_ratio values for ElasticNet tuning 
+  cv_size: 5                                     # number of folds for cross-validation
+
 
 runtype:
   prod_run: false                    # true if running as production module, false if running in notebook

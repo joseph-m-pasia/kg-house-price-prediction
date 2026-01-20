@@ -6,6 +6,7 @@ data:
   external_path: "src/pkg_house_prices/data/external/"   # optional: external datasets
   train: "src/pkg_house_prices/data/raw/train.csv"       # train data file 
   test: "src/pkg_house_prices/data/raw/test.csv"         # test data file  
+  target: "SalePrice"                                    # target variable name                    
 
 features:
   # Specific files
@@ -24,6 +25,13 @@ training:
   n_estimators: 100
   max_depth: 10
   test_size: 0.2
+
+params:
+  # Hyperparameters for model training
+  learning_rate: 0.01
+  batch_size: 32
+  epochs: 100
+  missing_threshold: 00            # threshold for dropping columns with too many missing values
 
 runtype:
   prod_run: false                    # true if running as production module, false if running in notebook

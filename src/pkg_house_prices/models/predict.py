@@ -3,7 +3,7 @@ import joblib
 from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.features.build_features import test_final
 from pkg_house_prices.utils.config import CONFIG
-from pkg_house_prices.models.train_LR import linear_regression_model
+from pkg_house_prices.models.train_models import linear_regression_model
 
 def predict_house_prices(X):
     """

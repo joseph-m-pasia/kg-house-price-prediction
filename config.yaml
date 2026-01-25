@@ -6,13 +6,15 @@ data:
   external_path: "src/pkg_house_prices/data/external/"   # optional: external datasets
   train: "src/pkg_house_prices/data/raw/train.csv"       # train data file 
   test: "src/pkg_house_prices/data/raw/test.csv"         # test data file  
-  target: "SalePrice"                                    # target variable name                    
+  target: "SalePrice"                                    # target variable name  
+  test_size: 0.2                                         # proportion of data to use for testing                  
 
 features:
   # Specific files
   train_features_path: "src/pkg_house_prices/features/features_train.csv"  # processed training features
   test_features_path: "src/pkg_house_prices/features/features_test.csv"    # processed test features
   selected_features_path: "src/pkg_house_prices/features/selected_features.csv"  # optional: after feature selection
+  simple_imputer_strategy: "mean"                                          # strategy for SimpleImputer (mean, median, most_frequent, constant)
 
 models:
   # Folder for saving trained models

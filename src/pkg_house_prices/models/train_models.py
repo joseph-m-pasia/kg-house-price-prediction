@@ -37,10 +37,10 @@ def train_model(X_train, y_train, model_type='linear'):
         regressor = Ridge()
         param_grid = {'regressor__alpha': CONFIG["params"]["regressor_alpha"]}
     elif model_type == 'lasso':
-        regressor = Lasso()
+        regressor = Lasso(max_iter=5000, tol=1e-5)
         param_grid = {'regressor__alpha': CONFIG["params"]["regressor_alpha"]}
     elif model_type == 'elasticnet':
-        regressor = ElasticNet()
+        regressor = ElasticNet(max_iter=5000, tol=1e-5)
         param_grid = {'regressor__alpha': CONFIG["params"]["regressor_alpha"],
                       'regressor__l1_ratio': CONFIG["params"]["regressor__l1_ratio"]}
     else:
@@ -66,10 +66,9 @@ def train_model(X_train, y_train, model_type='linear'):
         best_score = cross_val_score(model, X_train, y_train, cv=CONFIG["params"]["cv_size"], scoring='r2').mean()
         logger.info(f"train_model() - CV R^2 score: {best_score:.4f}")
 
-
     logger.info("train_model() - Dumping pipeline...")
-    joblib.dump(model, 'deployment/linear_regression.joblib')
-
+    joblib.dump(model, f"src/pkg_house_prices/data/outputs/{model_type}_regression.joblib")
+    
     return model
 
 # Separate features and target variable

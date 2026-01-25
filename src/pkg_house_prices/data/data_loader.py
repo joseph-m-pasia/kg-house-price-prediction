@@ -1,35 +1,37 @@
 from pathlib import Path
 import pandas as pd
+from sklearn.model_selection import train_test_split
 from pkg_house_prices.utils.config import CONFIG  # your YAML loader
 from pkg_house_prices.utils.logger import logger
-from pkg_house_prices.utils.read_config import read_config 
+from pkg_house_prices.utils.helpers import read_config 
 
 # --- Load data function ---
-def _load_data():
+def _load_data(train_path):
     """
-    Load train and test datasets using absolute paths from config
+    Load datasets using absolute paths from config
     """
-    logger.info("_load_data() - Executing load data function...")
-   
-    # Logging paths
-    train_path = read_config("data", "train")
-    test_path  = read_config("data", "test")
-
-    logger.info(f"_load_data() - Loading train data from {train_path}")
-    logger.info(f"_load_data() - Loading test data from {test_path}")
+    logger.info("_load_data() - Executing load data function...")   
 
    # Optional sanity check
     if not train_path.exists():
         logger.error(f"_load_data() - Train file not found: {train_path}")
         raise FileNotFoundError(f"Train file not found: {train_path}")
-    if not test_path.exists():
-        logger.error(f"_load_data() - Test file not found: {test_path}")
-        raise FileNotFoundError(f"Test file not found: {test_path}")
 
     train = pd.read_csv(train_path)
-    test  = pd.read_csv(test_path)
 
-    return train, test
+    return train
 
-train, test = _load_data()
 
+# --- Main execution ---
+train_path = read_config("data", "train")
+train = _load_data(train_path)
+
+target_variable = CONFIG["data"]["target"]  
+X = train.drop(columns=[target_variable])
+y = train[target_variable]
+
+# Split data between training and testing
+logger.info("_split_data() - Splitting data into features and target variable...")
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=CONFIG["data"]["test_size"], random_state=42)  
+
+logger.info(f"_split_data() - Completed data split: X_train: {X_train.shape}, X_test: {X_test.shape}, y_train: {y_train.shape}, y_test: {y_test.shape}")

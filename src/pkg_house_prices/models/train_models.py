@@ -3,12 +3,14 @@ from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
-import joblib
-from pkg_house_prices.utils.logger import logger
-from pkg_house_prices.features.build_features import train_final, test_final
-from pkg_house_prices.utils.config import CONFIG
 from sklearn.model_selection import GridSearchCV
+import joblib
 
+from pkg_house_prices.utils.logger import logger
+from pkg_house_prices.utils.config import CONFIG
+from pkg_house_prices.data.data_loader import X_train, y_train
+from pkg_house_prices.features.missing_ratio_dropper import MissingRatioDropper
+from pkg_house_prices.features.preprocessor import Preprocessor
 
 def train_model(X_train, y_train, model_type='linear'):
     """
@@ -48,8 +50,8 @@ def train_model(X_train, y_train, model_type='linear'):
 
     logger.info("train_model() - Training LinearRegression model: Define Pipeline   ...")
     model = Pipeline(steps=[
-        ('imputer', SimpleImputer(strategy='mean')),
-        ('scaler', StandardScaler()),
+        ('dropper', MissingRatioDropper(min_ratio=CONFIG["params"]["missing_threshold"])),
+        ('preprocessor', Preprocessor()),
         ('regressor', regressor)
     ])
     logger.info("train_model() - Fitting pipeline...")
@@ -71,11 +73,6 @@ def train_model(X_train, y_train, model_type='linear'):
     
     return model
 
-# Separate features and target variable
-target_variable = CONFIG["data"]["target"]  
-X_train = train_final.drop(columns=[target_variable])
-y_train = train_final[target_variable]
-
 # show me the variables in X_train with NaN values
 nan_columns = X_train.columns[X_train.isna().any()].tolist() 
 logger.info(f"Columns in X_train with NaN values: {nan_columns}")
@@ -84,5 +81,4 @@ logger.info(f"Columns in X_train with NaN values: {nan_columns}")
 lr_model = train_model(X_train, y_train, "linear")
 lasso_model = train_model(X_train, y_train, "lasso")
 ridge_model = train_model(X_train, y_train, "ridge")
-elasticnet_model = train_model(X_train, y_train, "elasticnet")   
-
+elasticnet_model = train_model(X_train, y_train, "elasticnet")      

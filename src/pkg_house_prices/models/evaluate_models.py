@@ -2,7 +2,7 @@ from pkg_house_prices.utils.helpers import read_joblib
 from pkg_house_prices.utils.project_root import PROJECT_ROOT
 from pkg_house_prices.utils.config import CONFIG            
 from sklearn.metrics import mean_squared_error, r2_score
-from pkg_house_prices.features.build_features import test_final
+from pkg_house_prices.data.data_loader import X_test, y_test
 from pkg_house_prices.utils.logger import logger
 import pandas as pd
 
@@ -50,18 +50,15 @@ if __name__ == "__main__":
     ridge_regression_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "ridge_regression.joblib")
     lasso_regression_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "lasso_regression.joblib")
     elasticnet_regression_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "elasticnet_regression.joblib")   
+    x_gb_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "xgboost_regression.joblib")
 
     models = {
         "Linear Regression": linear_regression_model,        
         "Ridge Regression": ridge_regression_model,
         "Lasso Regression": lasso_regression_model,
-        "ElasticNet Regression": elasticnet_regression_model    
-    }   
-
-    # Load test data
-    target_variable = CONFIG["data"]["target"]              # Separate features and target variable
-    X_test = test_final.drop(columns=[target_variable])
-    y_test = test_final[target_variable]
+        "ElasticNet Regression": elasticnet_regression_model,
+        "XGBoost Regression": x_gb_model    
+    }  
 
     # Evaluate models
     results = evaluate_models(models, X_test, y_test)

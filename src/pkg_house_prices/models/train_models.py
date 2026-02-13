@@ -1,4 +1,5 @@
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from xgboost import XGBRegressor   
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -11,6 +12,8 @@ from pkg_house_prices.utils.config import CONFIG
 from pkg_house_prices.data.data_loader import X_train, y_train
 from pkg_house_prices.features.missing_ratio_dropper import MissingRatioDropper
 from pkg_house_prices.features.preprocessor import Preprocessor
+from pkg_house_prices.features.preprocessor import FeatureEngineer
+
 
 def train_model(X_train, y_train, model_type='linear'):
     """
@@ -24,7 +27,7 @@ def train_model(X_train, y_train, model_type='linear'):
     y_train : pd.Series or np.ndarray
         Target variable
     model_type : str
-        Type of regression model to train: 'linear', 'ridge', 'lasso', 'elasticnet'
+        Type of regression model to train: 'linear', 'ridge', 'lasso', 'elasticnet', 'xgboost'
     Returns
     -------
     model : sklearn Pipeline
@@ -45,11 +48,19 @@ def train_model(X_train, y_train, model_type='linear'):
         regressor = ElasticNet(max_iter=5000, tol=1e-5)
         param_grid = {'regressor__alpha': CONFIG["params"]["regressor_alpha"],
                       'regressor__l1_ratio': CONFIG["params"]["regressor__l1_ratio"]}
+    elif model_type == 'xgboost':
+        regressor = XGBRegressor(objective='reg:squarederror', eval_metric='rmse', use_label_encoder=False)
+        param_grid = {
+            'regressor__n_estimators': CONFIG["params"]["xgb_n_estimators"],
+            'regressor__max_depth': CONFIG["params"]["xgb_max_depth"],
+            'regressor__learning_rate': CONFIG["params"]["xgb_learning_rate"]
+        }
     else:
          raise ValueError("model_type must be one of 'linear', 'ridge', 'lasso', 'elasticnet'")   
 
     logger.info("train_model() - Training LinearRegression model: Define Pipeline   ...")
     model = Pipeline(steps=[
+        ('feature_engineer', FeatureEngineer()),
         ('dropper', MissingRatioDropper(min_ratio=CONFIG["params"]["missing_threshold"])),
         ('preprocessor', Preprocessor()),
         ('regressor', regressor)
@@ -73,12 +84,16 @@ def train_model(X_train, y_train, model_type='linear'):
     
     return model
 
-# show me the variables in X_train with NaN values
-nan_columns = X_train.columns[X_train.isna().any()].tolist() 
-logger.info(f"Columns in X_train with NaN values: {nan_columns}")
+if __name__ == "__main__":
 
-# Train the model
-lr_model = train_model(X_train, y_train, "linear")
-lasso_model = train_model(X_train, y_train, "lasso")
-ridge_model = train_model(X_train, y_train, "ridge")
-elasticnet_model = train_model(X_train, y_train, "elasticnet")      
+    # show me the variables in X_train with NaN values
+    nan_columns = X_train.columns[X_train.isna().any()].tolist() 
+    logger.info(f"Columns in X_train with NaN values: {nan_columns}")
+
+
+    # Train the model
+    lr_model = train_model(X_train, y_train, "linear")
+    lasso_model = train_model(X_train, y_train, "lasso")
+    ridge_model = train_model(X_train, y_train, "ridge")
+    elasticnet_model = train_model(X_train, y_train, "elasticnet")    
+    x_gb_model = train_model(X_train, y_train, "xgboost")  

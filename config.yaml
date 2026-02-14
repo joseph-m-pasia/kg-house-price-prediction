@@ -41,6 +41,10 @@ params:
   xgb_max_depth: [3, 6, 9]                       # maximum depth of trees for XGBoost
   xgb_learning_rate: [0.01, 0.1, 0.2]            # learning rate for XGBoost    
 
+diagnostics:
+  to_plot: true                         # whether to generate diagnostic plots
+  diagnostics_output_path: "src/pkg_house_prices/data/outputs/diagnostics/"  # folder to save diagnostic outputs (plots, metrics)     
+
 
 runtype:
   prod_run: false                    # true if running as production module, false if running in notebook

@@ -17,9 +17,9 @@ def _load_data(data_path):
         logger.error(f"_load_data() - Data file not found: {data_path}")
         raise FileNotFoundError(f"Data file not found: {data_path}")
 
-    train = pd.read_csv(data_path)
+    dt = pd.read_csv(data_path)
 
-    return train
+    return dt
 
 
 # --- Main execution ---

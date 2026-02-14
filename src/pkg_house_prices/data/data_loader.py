@@ -6,18 +6,18 @@ from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.utils.helpers import read_config 
 
 # --- Load data function ---
-def _load_data(train_path):
+def _load_data(data_path):
     """
     Load datasets using absolute paths from config
     """
     logger.info("_load_data() - Executing load data function...")   
 
-   # Optional sanity check
-    if not train_path.exists():
-        logger.error(f"_load_data() - Train file not found: {train_path}")
-        raise FileNotFoundError(f"Train file not found: {train_path}")
+    # Optional sanity check
+    if not data_path.exists():
+        logger.error(f"_load_data() - Data file not found: {data_path}")
+        raise FileNotFoundError(f"Data file not found: {data_path}")
 
-    train = pd.read_csv(train_path)
+    train = pd.read_csv(data_path)
 
     return train
 

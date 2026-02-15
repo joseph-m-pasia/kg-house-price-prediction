@@ -17,10 +17,9 @@ features:
   simple_imputer_strategy: "mean"                                          # strategy for SimpleImputer (mean, median, most_frequent, constant)
 
 models:
-  # Folder for saving trained models
-  output_path: "src/pkg_house_prices/models/trained_models/"
-  # Specific model file (optional if you save multiple models)
-  random_forest_model: "src/pkg_house_prices/models/trained_models/random_forest.pkl"
+  output_path: "src/pkg_house_prices/models/trained_models/"                          # Folder for saving trained models
+  random_forest_model: "src/pkg_house_prices/models/trained_models/random_forest.pkl" # Specific model file (optional if you save multiple models)
+  champion_model: "src/pkg_house_prices/models/trained_models/champion_model.pkl"     # optional: best model after tuning
 
 training:
   random_seed: 42
@@ -44,7 +43,6 @@ params:
 diagnostics:
   to_plot: true                         # whether to generate diagnostic plots
   diagnostics_output_path: "src/pkg_house_prices/data/outputs/diagnostics/"  # folder to save diagnostic outputs (plots, metrics)     
-
 
 runtype:
   prod_run: false                    # true if running as production module, false if running in notebook

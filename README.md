@@ -1,2 +1,3 @@
-# House Prices - TensorFlow Version
-End-to-end ML pipeline using TensorFlow.
+# House Prices - SKLEARN Version
+Predicts the House Prices using advanced regression techniques. 
+Datasets come form Kaggle

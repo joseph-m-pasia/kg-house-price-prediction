@@ -4,6 +4,7 @@ data:
   raw_path: "src/pkg_house_prices/data/raw/"             # folder containing original raw data files
   processed_path: "src/pkg_house_prices/data/processed/" # folder to store cleaned/processed data
   external_path: "src/pkg_house_prices/data/external/"   # optional: external datasets
+  final_output_path: "src/pkg_house_prices/data/outputs/"    # folder for final outputs (predictions, reports)
   train: "src/pkg_house_prices/data/raw/train.csv"       # train data file 
   test: "src/pkg_house_prices/data/raw/test.csv"         # test data file  
   target: "SalePrice"                                    # target variable name  
@@ -18,8 +19,6 @@ features:
 
 models:
   output_path: "src/pkg_house_prices/models/trained_models/"                          # Folder for saving trained models
-  random_forest_model: "src/pkg_house_prices/models/trained_models/random_forest.pkl" # Specific model file (optional if you save multiple models)
-  champion_model: "src/pkg_house_prices/models/trained_models/champion_model.pkl"     # optional: best model after tuning
 
 training:
   random_seed: 42

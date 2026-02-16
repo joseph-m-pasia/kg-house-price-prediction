@@ -46,12 +46,12 @@ def evaluate_models(models, X_test, y_test):
 if __name__ == "__main__":
 
     # Load trained models
-    linear_regression_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "linear_regression.joblib")       
-    ridge_regression_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "ridge_regression.joblib")
-    lasso_regression_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "lasso_regression.joblib")
-    elasticnet_regression_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "elasticnet_regression.joblib")   
-    x_gb_model = read_joblib(PROJECT_ROOT / "src/pkg_house_prices/data/outputs", "xgboost_regression.joblib")
-
+    output_path = CONFIG['models']['output_path']
+    linear_regression_model = read_joblib(PROJECT_ROOT / output_path, "linear_regression.joblib")       
+    ridge_regression_model = read_joblib(PROJECT_ROOT / output_path, "ridge_regression.joblib")
+    lasso_regression_model = read_joblib(PROJECT_ROOT / output_path, "lasso_regression.joblib")
+    elasticnet_regression_model = read_joblib(PROJECT_ROOT / output_path, "elasticnet_regression.joblib")   
+    x_gb_model = read_joblib(PROJECT_ROOT / output_path, "xgboost_regression.joblib")   
     models = {
         "Linear Regression": linear_regression_model,        
         "Ridge Regression": ridge_regression_model,

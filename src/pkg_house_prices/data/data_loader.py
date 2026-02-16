@@ -1,5 +1,6 @@
 from pathlib import Path
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from pkg_house_prices.utils.config import CONFIG  # your YAML loader
 from pkg_house_prices.utils.logger import logger
@@ -23,17 +24,19 @@ def _load_data(data_path):
 
 
 # --- Main execution ---
-if __name__ == "__main__":
-    logger.info("data_loader.py - Starting data loading and splitting process...")              
-    train_path = read_config("data", "train")
-    train = _load_data(train_path)
+logger.info("data_loader.py - Starting data loading and splitting process...")              
+train_path = read_config("data", "train")
+train = _load_data(train_path)
 
-    target_variable = CONFIG["data"]["target"]  
-    X = train.drop(columns=[target_variable])
-    y = train[target_variable]
+target_variable = CONFIG["data"]["target"]  
+X = train.drop(columns=[target_variable])
+y = train[target_variable]
 
-    # Split data between training and testing
-    logger.info("_split_data() - Splitting data into features and target variable...")
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=CONFIG["data"]["test_size"], random_state=42)  
+# take the log + 1 of the target variable to handle skewness
+y = np.log1p(y)
 
-    logger.info(f"_split_data() - Completed data split: X_train: {X_train.shape}, X_test: {X_test.shape}, y_train: {y_train.shape}, y_test: {y_test.shape}")
+# Split data between training and testing
+logger.info("_split_data() - Splitting data into features and target variable...")
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=CONFIG["data"]["test_size"], random_state=42)  
+
+logger.info(f"_split_data() - Completed data split: X_train: {X_train.shape}, X_test: {X_test.shape}, y_train: {y_train.shape}, y_test: {y_test.shape}")

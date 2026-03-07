@@ -151,4 +151,10 @@ if __name__ == "__main__":
 
     # print the champion model's hyperparameters (if applicable)
     if champion_model != "Linear Regression":
+        champion_model_pipeline = {
+            "Lasso Regression": lasso_model,
+            "Ridge Regression": ridge_model,
+            "ElasticNet Regression": enet_model,
+            "XGBoost Regression": x_gb_model
+        }[champion_model]
         logger.info(f"Champion model hyperparameters: {champion_model_pipeline.named_steps['regressor']}")  

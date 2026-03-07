@@ -1,3 +1,9 @@
+"""
+This module generates the final predictions for the house prices prediction task using the champion model identified in the previous evaluation step. It loads the trained champion model from disk, makes predictions on the test set, transforms the predictions back to the original scale if necessary, and saves the results in a CSV file for submission or further analysis.
+Author: Joseph M.P.
+
+"""
+
 import pandas as pd 
 import numpy as np
 from pkg_house_prices.utils.logger import logger

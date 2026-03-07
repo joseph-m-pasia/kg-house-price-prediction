@@ -1,3 +1,11 @@
+"""
+This module evaluates the performance of trained regression models (Linear, Ridge, Lasso, ElasticNet, XGBoost) on the test set.
+It loads the trained models from disk, makes predictions on the test set, and calculates evaluation metrics
+(MSE, RMSE, R^2) for each model. The results are printed to the console for comparison.
+Author: Joseph M.P. 
+
+"""
+
 from pkg_house_prices.utils.helpers import read_joblib
 from pkg_house_prices.utils.project_root import PROJECT_ROOT
 from pkg_house_prices.utils.config import CONFIG            

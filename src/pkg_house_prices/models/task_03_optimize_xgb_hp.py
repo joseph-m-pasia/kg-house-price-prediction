@@ -1,3 +1,9 @@
+"""
+This module performs hyperparameter optimization for the XGBoost regression model using a systematic approach. It first determines the optimal number of trees (n_estimators) using early stopping on a validation set, then tunes complexity parameters (max_depth, min_child_weight), followed by gamma, regularization parameters (reg_alpha, reg_lambda), subsample and colsample_bytree, and finally the learning rate. The optimized model is evaluated using cross-validation R^2 scores before being finalized as the champion model and saved to disk for later use in prediction.
+Author: Joseph M.P.
+
+"""
+
 import os
 import pandas as pd
 import numpy as np

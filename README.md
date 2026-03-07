@@ -53,3 +53,8 @@ This will:
  - Train machine learning models
  - Evaluate model performance
  - Save trained models
+
+## Kaggle Leaderboard 
+
+<img width="1403" height="148" alt="image" src="https://github.com/user-attachments/assets/d87bfb1b-64c4-485b-8372-f6902ee580f3" />
+

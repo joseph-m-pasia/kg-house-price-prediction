@@ -17,7 +17,7 @@ def _get_project_root():
         return Path(__file__).parents[2]   
     else:
         logger.info(f"_get_project_root() - Running in a non-production (.g. notebook) environment")
-        return Path("D:\Joseph\Knowledge\Kaggle\house_prices_tensorflow")  # <-- set your local project root for notebooks here
+        return Path(CONFIG['dev_absolute_path'])  # <-- set your local project root for notebooks here
     
 PROJECT_ROOT = _get_project_root()                                           # <-- now PROJECT_ROOT is defined
 logger.info(f"_get_project_root() - PROJECT ROOT is {PROJECT_ROOT}")

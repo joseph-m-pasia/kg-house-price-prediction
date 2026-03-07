@@ -1,4 +1,6 @@
 # config.yaml
+dev_absolute_path: "D:/Joseph/Projects/kg-house-price-prediction/"  # absolute path to the project root directory
+
 data:
   # Folders
   raw_path: "src/pkg_house_prices/data/raw/"             # folder containing original raw data files

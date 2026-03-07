@@ -36,10 +36,16 @@ logger.info("task_04_generate_final_results.py - Transforming predictions back t
 y_pred_original_scale = np.expm1(y_pred)  # Inverse of log1p
 
 # Save the predictions to a CSV file
-logger.info("task_04_generate_final_results.py - Saving final predictions to CSV...")
 output_path_data = CONFIG['data']['final_output_path']  
+logger.info("task_04_generate_final_results.py - Saving final predictions in CSV format in the output directory {}.".format(output_path_data))
 results_df = pd.DataFrame({
     "Id": test_data["Id"],
     "SalePrice": y_pred_original_scale
 })
+# check if folder exists, if not create it
+if not (PROJECT_ROOT / output_path_data).exists():
+    logger.info(f"task_04_generate_final_results.py - Output directory {output_path_data} does not exist. Creating it...")
+    (PROJECT_ROOT / output_path_data).mkdir(parents=True, exist_ok=True)    
+else:
+    logger.info(f"task_04_generate_final_results.py - Output directory {output_path_data} already exists. Saving results...")
 results_df.to_csv(PROJECT_ROOT / output_path_data / "final_predictions.csv", index=False )

@@ -1,3 +1,10 @@
+"""
+This module trains multiple regression models (Linear, Ridge, Lasso, ElasticNet, XGBoost) using sklearn Pipelines.
+It performs hyperparameter tuning using GridSearchCV for Ridge, Lasso, ElasticNet, and XGBoost, and evaluates model performance using cross-validation R^2 scores.
+The trained models are saved to disk using joblib for later use in prediction.  
+Author: Joseph M.P.
+
+"""
 import os
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from xgboost import XGBRegressor   
@@ -141,18 +148,6 @@ if __name__ == "__main__":
 
     champion_model = max(cv_scores, key=cv_scores.get)  
     logger.info(f"Champion model based on CV R^2 score: {champion_model} with score {cv_scores[champion_model]:.4f}, Train R^2 score: {train_scores[champion_model]:.4f}, CV R^2 score std dev: {std_cv_scores[champion_model]:.4f}")   
-
-    # potentially save champion model separately for easy loading in production
-    champion_model_mapping = {
-        "Linear Regression": lr_model,
-        "Lasso Regression": lasso_model,
-        "Ridge Regression": ridge_model,
-        "ElasticNet Regression": enet_model,
-        "XGBoost Regression": x_gb_model
-    }
-    champion_model_pipeline = champion_model_mapping[champion_model]
-    joblib.dump(champion_model_pipeline, CONFIG["models"]["champion_model"])
-    logger.info(f"Champion model pipeline saved to: {CONFIG['models']['champion_model']}")  
 
     # print the champion model's hyperparameters (if applicable)
     if champion_model != "Linear Regression":

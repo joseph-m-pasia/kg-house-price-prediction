@@ -39,3 +39,13 @@ jobs:
 
       - name: Install test dependencies
         run: pip install pytest
+
+      - name: Install linting dependencies
+        run: pip install black flake8
+
+      - name: Check code formatting with black
+        run: black --check .
+
+      - name: Run flake8 for linting
+        run: flake8 .
+

@@ -1,7 +1,7 @@
 from pkg_house_prices.utils.logger                  import logger
 from pkg_house_prices.utils.config                  import CONFIG
 from pkg_house_prices.data.data_loader              import X_train, y_train
-from pkg_house_prices.models.task_01_train_models   import train_model
+from pkg_house_prices.models.trainer                import train_model
 
     
 #==================== LAUNCH THE TRAINING PIPELINE ==============================    git s

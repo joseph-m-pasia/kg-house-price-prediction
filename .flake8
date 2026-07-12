@@ -1,0 +1,38 @@
+[flake8]
+# ML projects need longer lines
+max-line-length = 120
+
+# Ignore noisy rules that do not affect correctness  
+ignore = 
+    E203
+    E266
+    E501
+    W503
+    W291
+    W292
+    W293
+    E302
+    E305
+    E303
+    E231
+    E221
+    E251
+    E272
+
+# Keep rules that catch real bugs
+select = E,F,W
+
+# Exclude directories that should not be linted
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    .venv,
+    venv,
+    notebooks,
+    data,
+    logs
+
+# Allow complexity appropriate for ML pipelines
+max-complexity = 15

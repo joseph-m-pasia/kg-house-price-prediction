@@ -1,6 +1,7 @@
 import yaml
 from pathlib import Path
 
+
 def _load_config():
     """
     Loads the YAML configuration file from project root

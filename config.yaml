@@ -3,24 +3,24 @@ dev_absolute_path: "D:/Joseph/Projects/kg-house-price-prediction/"  # absolute p
 
 data:
   # Folders
-  raw_path: "src/pkg_house_prices/data/raw/"             # folder containing original raw data files
-  processed_path: "src/pkg_house_prices/data/processed/" # folder to store cleaned/processed data
-  external_path: "src/pkg_house_prices/data/external/"   # optional: external datasets
-  final_output_path: "src/pkg_house_prices/data/outputs/"    # folder for final outputs (predictions, reports)
-  train: "src/pkg_house_prices/data/raw/train.csv"       # train data file 
-  test: "src/pkg_house_prices/data/raw/test.csv"         # test data file  
+  raw_path: "pkg_house_prices/data/raw/"             # folder containing original raw data files
+  processed_path: "pkg_house_prices/data/processed/" # folder to store cleaned/processed data
+  external_path: "pkg_house_prices/data/external/"   # optional: external datasets
+  final_output_path: "pkg_house_prices/data/outputs/"    # folder for final outputs (predictions, reports)
+  train: "pkg_house_prices/data/raw/train.csv"       # train data file 
+  test: "pkg_house_prices/data/raw/test.csv"         # test data file  
   target: "SalePrice"                                    # target variable name  
   test_size: 0.2                                         # proportion of data to use for testing                  
 
 features:
   # Specific files
-  train_features_path: "src/pkg_house_prices/features/features_train.csv"  # processed training features
-  test_features_path: "src/pkg_house_prices/features/features_test.csv"    # processed test features
-  selected_features_path: "src/pkg_house_prices/features/selected_features.csv"  # optional: after feature selection
+  train_features_path: "pkg_house_prices/features/features_train.csv"  # processed training features
+  test_features_path: "pkg_house_prices/features/features_test.csv"    # processed test features
+  selected_features_path: "pkg_house_prices/features/selected_features.csv"  # optional: after feature selection
   simple_imputer_strategy: "mean"                                          # strategy for SimpleImputer (mean, median, most_frequent, constant)
 
 models:
-  output_path: "src/pkg_house_prices/models/trained_models/"                          # Folder for saving trained models
+  output_path: "pkg_house_prices/models/trained_models/"                          # Folder for saving trained models
 
 training:
   random_seed: 42
@@ -43,7 +43,7 @@ params:
 
 diagnostics:
   to_plot: true                         # whether to generate diagnostic plots
-  diagnostics_output_path: "src/pkg_house_prices/data/outputs/diagnostics/"  # folder to save diagnostic outputs (plots, metrics)     
+  diagnostics_output_path: "pkg_house_prices/data/outputs/diagnostics/"  # folder to save diagnostic outputs (plots, metrics)     
 
 runtype:
   prod_run: false                    # true if running as production module, false if running in notebook

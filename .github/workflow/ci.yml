@@ -39,4 +39,3 @@ jobs:
 
       - name: Install test dependencies
         run: pip install pytest
-

@@ -12,8 +12,6 @@ from pkg_house_prices.utils.config import CONFIG
 from sklearn.metrics import mean_squared_error, r2_score
 from pkg_house_prices.data.data_loader import X_test, y_test
 from pkg_house_prices.utils.logger import logger
-import pandas as pd
-
 
 # Evaluate and compare models
 def evaluate_models(models, X_test, y_test):

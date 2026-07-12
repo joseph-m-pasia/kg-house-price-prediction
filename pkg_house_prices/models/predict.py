@@ -1,5 +1,3 @@
-from sklearn.linear_model import LinearRegression
-import joblib
 from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.features.build_features import test_final
 from pkg_house_prices.utils.config import CONFIG

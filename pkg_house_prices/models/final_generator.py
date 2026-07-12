@@ -10,7 +10,6 @@ from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.utils.helpers import read_joblib
 from pkg_house_prices.utils.project_root import PROJECT_ROOT
 from pkg_house_prices.utils.config import CONFIG
-from pkg_house_prices.data.data_loader import X_test, y_test
 
 # This script generates the final results for the house prices prediction task. It loads the trained model, makes predictions on the test set, and saves the results in a CSV file.
 

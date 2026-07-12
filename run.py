@@ -1,5 +1,4 @@
 from pkg_house_prices.utils.logger import logger
-from pkg_house_prices.utils.config import CONFIG
 from pkg_house_prices.data.data_loader import X_train, y_train
 from pkg_house_prices.models.trainer import train_model
 
@@ -65,7 +64,7 @@ if champion_model != "Linear Regression":
     logger.info(f"Champion model hyperparameters: {champion_model_pipeline.named_steps['regressor']}")
 
 # ==================== COPY AND RENAME THE CHAMPION MODEL ==============================
-import shutil
+# import shutil
 
 # champion_model_dir = "artifacts/models/20260704_184917_champion_logistic_regression/"
 

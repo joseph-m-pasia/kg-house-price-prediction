@@ -1,7 +1,5 @@
 import yaml
 from pathlib import Path
-from pkg_house_prices.utils.logger import logger
-
 
 def _load_config():
     """

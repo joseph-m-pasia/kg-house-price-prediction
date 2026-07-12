@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 
+
 class MissingRatioDropper(BaseEstimator, TransformerMixin):
     def __init__(self, min_ratio=0.8):
         """
@@ -22,9 +23,7 @@ class MissingRatioDropper(BaseEstimator, TransformerMixin):
         self.non_missing_ratio_ = 1 - X_df.isna().sum() / n_samples
 
         # Columns to keep
-        self.columns_to_keep_ = self.non_missing_ratio_[
-            self.non_missing_ratio_ >= self.min_ratio
-        ].index.tolist()
+        self.columns_to_keep_ = self.non_missing_ratio_[self.non_missing_ratio_ >= self.min_ratio].index.tolist()
 
         return self
 

@@ -1,3 +1,5 @@
+from sklearn.datasets import make_regression
+
 import pytest
 import pandas as pd
 
@@ -21,10 +23,6 @@ def sample_df():
             "PoolArea": [0, 50],
         }
     )
-
-
-from sklearn.datasets import make_regression
-
 
 @pytest.fixture
 def regression_data():

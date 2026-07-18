@@ -1,7 +1,6 @@
 from pkg_house_prices.models.trainer import train_model
 
-
-# 2. Test Linear Regression training
+# 1. Test Linear Regression training
 def test_train_linear_model_returns_pipeline(regression_data):
 
     X, y = regression_data
@@ -16,7 +15,7 @@ def test_train_linear_model_returns_pipeline(regression_data):
     assert isinstance(std_score, float)
 
 
-# 3. Test pipeline contains required steps
+# 2. Test pipeline contains required steps
 def test_pipeline_contains_required_steps(regression_data):
 
     X, y = regression_data
@@ -29,7 +28,7 @@ def test_pipeline_contains_required_steps(regression_data):
     assert "regressor" in model.named_steps
 
 
-# 4. Test that the model can make predictions
+# 3. Test that the model can make predictions
 def test_model_can_make_predictions(regression_data):
 
     X, y = regression_data
@@ -41,7 +40,7 @@ def test_model_can_make_predictions(regression_data):
     assert len(predictions) == len(y)
 
 
-# 5. Test GridSearchCV is used
+# 4. Test GridSearchCV is used
 def test_ridge_uses_grid_search(regression_data):
 
     X, y = regression_data
@@ -51,7 +50,7 @@ def test_ridge_uses_grid_search(regression_data):
     assert model.named_steps["regressor"].__class__.__name__ == "Ridge"
 
 
-# 6. Test model scores are valid
+# 5. Test model scores are valid
 def test_model_scores_are_valid(regression_data):
 
     X, y = regression_data

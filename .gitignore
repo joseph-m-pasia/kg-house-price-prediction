@@ -46,6 +46,7 @@ data/processed/
 .env.*
 secrets/
 credentials/
+.coverage
 
 # -------------------------
 # Build / Packaging

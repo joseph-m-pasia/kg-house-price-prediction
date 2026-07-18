@@ -22,23 +22,16 @@ def sample_df():
         }
     )
 
+
 from sklearn.datasets import make_regression
 
 
 @pytest.fixture
 def regression_data():
 
-    X, y = make_regression(
-        n_samples=50,
-        n_features=5,
-        noise=0.1,
-        random_state=42
-    )
+    X, y = make_regression(n_samples=50, n_features=5, noise=0.1, random_state=42)
 
-    X = pd.DataFrame(
-        X,
-        columns=[f"feature_{i}" for i in range(X.shape[1])]
-    )
+    X = pd.DataFrame(X, columns=[f"feature_{i}" for i in range(X.shape[1])])
 
     y = pd.Series(y)
 

@@ -1,3 +1,5 @@
+![CI Status](https://github.com/<username>/<repo>/actions/workflows/ci.yml/badge.svg)
+
 ## 🏠 House Prices Prediction (Machine Learning Project)
 
 A machine learning pipeline for predicting house prices using structured housing data.

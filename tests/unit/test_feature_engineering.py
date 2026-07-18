@@ -1,5 +1,4 @@
 from pkg_house_prices.features.preprocessor import FeatureEngineer
-from tests.unit.conftest import sample_df
 import pandas as pd
 
 

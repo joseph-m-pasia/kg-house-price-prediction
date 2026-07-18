@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pkg_house_prices"
-version = "0.1.0"
+version = "1.0.0"
 description = "House prices prediction"
 requires-python = ">=3.8"
 dependencies = [
@@ -13,6 +13,7 @@ dependencies = [
     "scikit-learn>=1.0.0",
     "matplotlib>=3.4.0",
     "fastapi",
+    "xgboost>=2.0.0",
     "uvicorn[standard]>=0.30.0",
     "httpx2",
 ]
@@ -26,7 +27,7 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["pkg_credit_default*"]
+include = ["pkg_house_prices*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

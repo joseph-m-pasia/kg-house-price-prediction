@@ -1,4 +1,4 @@
-![CI Status](https://github.com/<username>/<repo>/actions/workflows/ci.yml/badge.svg)
+![CI Status](https://github.com/joseph-m-pasia/kg-house-price-prediction/actions/workflows/ci.yml/badge.svg)
 
 ## 🏠 House Prices Prediction (Machine Learning Project)
 

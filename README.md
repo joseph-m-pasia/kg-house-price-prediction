@@ -1,4 +1,7 @@
+![CI Status](https://github.com/joseph-m-pasia/kg-house-price-prediction/actions/workflows/ci.yml/badge.svg)
+
 ## 🏠 House Prices Prediction (Machine Learning Project)
+
 
 A machine learning pipeline for predicting house prices using structured housing data.
 This project demonstrates a production-style ML workflow including data preprocessing, feature engineering, model training, evaluation, and reproducible experimentation.

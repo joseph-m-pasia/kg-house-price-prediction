@@ -24,6 +24,7 @@ def sample_df():
         }
     )
 
+
 @pytest.fixture
 def regression_data():
 

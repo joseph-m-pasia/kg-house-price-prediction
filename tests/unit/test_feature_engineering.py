@@ -1,8 +1,6 @@
 from pkg_house_prices.features.preprocessor import FeatureEngineer
 import pandas as pd
 
-from tests.conftest import sample_df
-
 
 # 1. Fit returns self
 def test_fit_returns_self(sample_df):

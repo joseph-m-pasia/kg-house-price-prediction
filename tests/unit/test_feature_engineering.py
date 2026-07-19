@@ -70,12 +70,7 @@ def test_total_bathrooms_created(sample_df):
     X, _ = sample_df
     result = fe.transform(X)
 
-    expected = (
-        X["FullBath"]
-        + 0.5 * X["HalfBath"]
-        + X["BsmtFullBath"]
-        + 0.5 * X["BsmtHalfBath"]
-    )
+    expected = X["FullBath"] + 0.5 * X["HalfBath"] + X["BsmtFullBath"] + 0.5 * X["BsmtHalfBath"]
 
     assert "TotalBathrooms" in result.columns
     pd.testing.assert_series_equal(

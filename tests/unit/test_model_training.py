@@ -2,9 +2,7 @@ from pkg_house_prices.models.trainer import train_model_pipeline
 
 
 # 1. Test Linear Regression training
-def test_train_linear_model_returns_pipeline(regression_data):
-
-    X, y = regression_data
+def test_train_linear_model_returns_pipeline():
 
     model, cv_score, train_score, std_score = train_model_pipeline(
         model_type="linear", data_path="tests/sample_data/train_sample.csv"
@@ -19,9 +17,7 @@ def test_train_linear_model_returns_pipeline(regression_data):
 
 
 # 2. Test pipeline contains required steps
-def test_pipeline_contains_required_steps(regression_data):
-
-    X, y = regression_data
+def test_pipeline_contains_required_steps():
 
     model, _, _, _ = train_model_pipeline(model_type="linear", data_path="tests/sample_data/train_sample.csv")
 
@@ -32,9 +28,7 @@ def test_pipeline_contains_required_steps(regression_data):
 
 
 # 3. Test that the model can make predictions
-def test_model_can_make_predictions(regression_data):
-
-    X, y = regression_data
+def test_model_can_make_predictions():
 
     model, _, _, _ = train_model_pipeline(model_type="linear", data_path="tests/sample_data/train_sample.csv")
 
@@ -44,9 +38,7 @@ def test_model_can_make_predictions(regression_data):
 
 
 # 4. Test GridSearchCV is used
-def test_ridge_uses_grid_search(regression_data):
-
-    X, y = regression_data
+def test_ridge_uses_grid_search():
 
     model, cv_score, train_score, std_score = train_model_pipeline(
         model_type="ridge", data_path="tests/sample_data/train_sample.csv"
@@ -56,9 +48,7 @@ def test_ridge_uses_grid_search(regression_data):
 
 
 # 5. Test model scores are valid
-def test_model_scores_are_valid(regression_data):
-
-    X, y = regression_data
+def test_model_scores_are_valid():
 
     model, cv_score, train_score, std_score = train_model_pipeline(
         model_type="linear", data_path="tests/sample_data/train_sample.csv"

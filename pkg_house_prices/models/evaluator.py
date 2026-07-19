@@ -5,12 +5,7 @@ It loads the trained models from disk, makes predictions on the test set, and ca
 Author: Joseph M.P.
 
 """
-
-from pkg_house_prices.utils.helpers import read_joblib
-from pkg_house_prices.utils.project_root import PROJECT_ROOT
-from pkg_house_prices.utils.config import CONFIG
 from pkg_house_prices.utils.logger import logger
-
 from sklearn.metrics import mean_squared_error, r2_score
 
 

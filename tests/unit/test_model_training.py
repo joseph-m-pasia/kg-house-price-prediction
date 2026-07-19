@@ -1,5 +1,6 @@
 from pkg_house_prices.models.trainer import train_model_pipeline
 
+
 # 1. Test Linear Regression training
 def test_train_linear_model_returns_pipeline():
 

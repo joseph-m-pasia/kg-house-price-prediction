@@ -28,7 +28,9 @@ def test_pipeline_contains_required_steps():
 
 
 # 3. Test that the model can make predictions
-def test_model_can_make_predictions():
+def test_model_can_make_predictions(sample_df):
+
+    X, y = sample_df
 
     model, _, _, _ = train_model_pipeline(model_type="linear", data_path="tests/sample_data/train_sample.csv")
 

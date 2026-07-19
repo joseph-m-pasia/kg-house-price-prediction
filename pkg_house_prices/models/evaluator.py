@@ -6,12 +6,12 @@ Author: Joseph M.P.
 
 """
 
-from pkg_house_prices.utils.helpers import read_joblib
+from pkg_house_prices.utils.helpers      import read_joblib
 from pkg_house_prices.utils.project_root import PROJECT_ROOT
-from pkg_house_prices.utils.config import CONFIG
+from pkg_house_prices.utils.config       import CONFIG
+from pkg_house_prices.utils.logger       import logger
+
 from sklearn.metrics import mean_squared_error, r2_score
-from pkg_house_prices.data.data_loader import X_test, y_test
-from pkg_house_prices.utils.logger import logger
 
 
 # Evaluate and compare models
@@ -42,6 +42,7 @@ def evaluate_models(models, X_test, y_test):
         r2 = r2_score(y_test, y_pred)
         results[model_name] = {"MSE": mse, "RMSE": rmse, "R^2": r2}
         logger.info(f"evaluate_models() - {model_name} - MSE: {mse}, RMSE: {rmse}, R^2: {r2}")
+
     return results
 
 

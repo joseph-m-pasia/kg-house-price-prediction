@@ -57,7 +57,7 @@ def test_no_missing_after_preprocessing(sample_df):
 
     p.fit(X)
 
-    result = p.transform(sample_df)
+    result = p.transform(X)
 
     assert not pd.isna(result).any()
 

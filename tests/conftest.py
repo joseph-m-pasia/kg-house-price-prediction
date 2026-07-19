@@ -1,5 +1,3 @@
-from sklearn.datasets import make_regression
-
 import pytest
 import pandas as pd
 

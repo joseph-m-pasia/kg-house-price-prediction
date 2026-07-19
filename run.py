@@ -1,5 +1,3 @@
-from pkg_house_prices import models
-from pkg_house_prices.models.evaluator import evaluate_models
 from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.models.trainer import train_model_pipeline
 

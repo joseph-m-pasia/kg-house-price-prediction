@@ -1,9 +1,10 @@
 from pkg_house_prices.models.trainer import train_model_pipeline
-
+from pkg_house_prices.utils.logger import logger
 
 # 1. Test Linear Regression training
 def test_train_linear_model_returns_pipeline():
 
+    
     model, cv_score, train_score, std_score = train_model_pipeline(
         model_type="linear", data_path="tests/sample_data/train_sample.csv"
     )

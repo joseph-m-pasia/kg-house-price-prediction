@@ -5,9 +5,12 @@ import pytest
 
 # 1. Fit returns self
 def test_preprocessor_fit_returns_self(sample_df):
+
+    X, _ = sample_df
+
     p = Preprocessor()
 
-    assert p.fit(sample_df) is p
+    assert p.fit(X) is p
 
 
 # 2. Detects numerical columns
@@ -34,20 +37,25 @@ def test_detects_categorical_columns():
 
 # 4. Transform returns same number of rows
 def test_transform_preserves_rows(sample_df):
+    X, y = sample_df
+
     p = Preprocessor()
 
-    p.fit(sample_df)
+    p.fit(X)
 
-    result = p.transform(sample_df)
+    result = p.transform(X)
 
-    assert result.shape[0] == len(sample_df)
+    assert result.shape[0] == len(y)
 
 
 # 5. No NaNs after preprocessing
 def test_no_missing_after_preprocessing(sample_df):
+
+    X, _ = sample_df
+
     p = Preprocessor()
 
-    p.fit(sample_df)
+    p.fit(X)
 
     result = p.transform(sample_df)
 
@@ -56,11 +64,13 @@ def test_no_missing_after_preprocessing(sample_df):
 
 # 6. Output contains no object dtype
 def test_output_is_numeric(sample_df):
+
+    X, _ = sample_df
     p = Preprocessor()
 
-    p.fit(sample_df)
+    p.fit(X)
 
-    X = p.transform(sample_df)
+    X = p.transform(X)
 
     assert X.shape[1] > 0
 

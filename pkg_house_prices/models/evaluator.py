@@ -44,26 +44,3 @@ def evaluate_models(models, X_test, y_test):
         logger.info(f"evaluate_models() - {model_name} - MSE: {mse}, RMSE: {rmse}, R^2: {r2}")
 
     return results
-
-
-if __name__ == "__main__":
-
-    # Load trained models
-    output_path = CONFIG["models"]["output_path"]
-    linear_regression_model = read_joblib(PROJECT_ROOT / output_path, "linear_regression.joblib")
-    ridge_regression_model = read_joblib(PROJECT_ROOT / output_path, "ridge_regression.joblib")
-    lasso_regression_model = read_joblib(PROJECT_ROOT / output_path, "lasso_regression.joblib")
-    elasticnet_regression_model = read_joblib(PROJECT_ROOT / output_path, "elasticnet_regression.joblib")
-    x_gb_model = read_joblib(PROJECT_ROOT / output_path, "xgboost_regression.joblib")
-    models = {
-        "Linear Regression": linear_regression_model,
-        "Ridge Regression": ridge_regression_model,
-        "Lasso Regression": lasso_regression_model,
-        "ElasticNet Regression": elasticnet_regression_model,
-        "XGBoost Regression": x_gb_model,
-    }
-
-    # Evaluate models
-    results = evaluate_models(models, X_test, y_test)
-    for model_name, metrics in results.items():
-        print(f"{model_name}: MSE={metrics['MSE']:,.2f}, RMSE={metrics['RMSE']:,.2f}, R^2={metrics['R^2']:,.2f}")

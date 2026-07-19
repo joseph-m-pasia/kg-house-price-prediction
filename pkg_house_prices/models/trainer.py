@@ -48,7 +48,7 @@ def data_pipeline(
     return X_train, X_test, y_train, y_test
 
 
-def train_model_pipeline(model_type="linear", data_path = CONFIG["data"]["train"]):
+def train_model_pipeline(model_type="linear", data_path=CONFIG["data"]["train"]):
     """
     Train a ML model using sklearn Pipeline.
     Supports Linear, Ridge, Lasso, and ElasticNet regression.

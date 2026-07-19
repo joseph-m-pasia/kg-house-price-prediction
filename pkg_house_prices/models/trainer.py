@@ -15,12 +15,12 @@ from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 
-from pkg_house_prices.utils.logger import logger
-from pkg_house_prices.utils.config import CONFIG
+from pkg_house_prices.utils.logger                   import logger
+from pkg_house_prices.utils.config                   import CONFIG
 from pkg_house_prices.features.missing_ratio_dropper import MissingRatioDropper
-from pkg_house_prices.features.preprocessor import Preprocessor
-from pkg_house_prices.features.preprocessor import FeatureEngineer
-from pkg_house_prices.data.data_loader import load_data, extract_features_target, split_data, save_data
+from pkg_house_prices.features.preprocessor          import Preprocessor
+from pkg_house_prices.features.preprocessor          import FeatureEngineer
+from pkg_house_prices.data.data_loader               import load_data, extract_features_target, split_data, save_data
 
 
 def data_pipeline(
@@ -68,14 +68,14 @@ def train_model_pipeline(model_type="linear"):
     # -----------------------
 
     X_train, X_test, y_train, y_test = data_pipeline(
-        data_path=CONFIG["data"]["train"],
-        target_variable=CONFIG["data"]["target"],
-        test_size=CONFIG["training"]["test_size"],
-        random_state=CONFIG["training"]["random_seed"],
-        transform_y=CONFIG["data"]["transform_y"],
-        save_to=CONFIG["data"]["final_output_path"],
-        save_as_train="train_features.csv",
-        save_as_test="test_features.csv",
+        data_path=       CONFIG["data"]["train"],
+        target_variable= CONFIG["data"]["target"],
+        test_size=       CONFIG["training"]["test_size"],
+        random_state=    CONFIG["training"]["random_seed"],
+        transform_y=     CONFIG["data"]["transform_y"],
+        save_to=         CONFIG["data"]["final_output_path"],
+        save_as_train=   "train_features.csv",
+        save_as_test=    "test_features.csv",
     )
 
     # -----------------------

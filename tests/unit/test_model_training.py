@@ -1,4 +1,4 @@
-from pkg_house_prices.models.trainer import train_model
+from pkg_house_prices.models.trainer import train_model_pipeline
 
 
 # 1. Test Linear Regression training
@@ -6,7 +6,7 @@ def test_train_linear_model_returns_pipeline(regression_data):
 
     X, y = regression_data
 
-    model, cv_score, train_score, std_score = train_model(X, y, "linear")
+    model, cv_score, train_score, std_score = train_model_pipeline(model_type="linear")
 
     assert model is not None
     assert hasattr(model, "predict")
@@ -21,7 +21,7 @@ def test_pipeline_contains_required_steps(regression_data):
 
     X, y = regression_data
 
-    model, _, _, _ = train_model(X, y, "linear")
+    model, _, _, _ = train_model_pipeline(model_type="linear")
 
     assert "feature_engineer" in model.named_steps
     assert "dropper" in model.named_steps
@@ -34,7 +34,7 @@ def test_model_can_make_predictions(regression_data):
 
     X, y = regression_data
 
-    model, _, _, _ = train_model(X, y, "linear")
+    model, _, _, _ = train_model_pipeline(model_type="linear")
 
     predictions = model.predict(X)
 
@@ -46,7 +46,7 @@ def test_ridge_uses_grid_search(regression_data):
 
     X, y = regression_data
 
-    model, cv_score, train_score, std_score = train_model(X, y, "ridge")
+    model, cv_score, train_score, std_score = train_model_pipeline(model_type="ridge")
 
     assert model.named_steps["regressor"].__class__.__name__ == "Ridge"
 
@@ -56,7 +56,7 @@ def test_model_scores_are_valid(regression_data):
 
     X, y = regression_data
 
-    model, cv_score, train_score, std_score = train_model(X, y, "linear")
+    model, cv_score, train_score, std_score = train_model_pipeline(model_type="linear")
 
     assert isinstance(cv_score, float)
     assert isinstance(train_score, float)

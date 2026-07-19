@@ -1,21 +1,25 @@
 from pkg_house_prices.features.preprocessor import FeatureEngineer
 import pandas as pd
 
+from tests.conftest import sample_df
+
 
 # 1. Fit returns self
 def test_fit_returns_self(sample_df):
     fe = FeatureEngineer()
+    X, _ = sample_df
 
-    assert fe.fit(sample_df) is fe
+    assert fe.fit(X) is fe
 
 
 # 2. HouseAge is computed correctly
 def test_house_age_created(sample_df):
     fe = FeatureEngineer()
 
-    result = fe.transform(sample_df)
+    X, _ = sample_df
+    result = fe.transform(X)
 
-    expected = sample_df["YrSold"] - sample_df["YearBuilt"]
+    expected = X["YrSold"] - X["YearBuilt"]
 
     assert "HouseAge" in result.columns
     pd.testing.assert_series_equal(
@@ -29,9 +33,10 @@ def test_house_age_created(sample_df):
 def test_remod_age_created(sample_df):
     fe = FeatureEngineer()
 
-    result = fe.transform(sample_df)
+    X, _ = sample_df
+    result = fe.transform(X)
 
-    expected = sample_df["YrSold"] - sample_df["YearRemodAdd"]
+    expected = X["YrSold"] - X["YearRemodAdd"]
 
     assert "RemodAge" in result.columns
     pd.testing.assert_series_equal(
@@ -45,9 +50,10 @@ def test_remod_age_created(sample_df):
 def test_total_sf_created(sample_df):
     fe = FeatureEngineer()
 
-    result = fe.transform(sample_df)
+    X, _ = sample_df
+    result = fe.transform(X)
 
-    expected = sample_df["TotalBsmtSF"] + sample_df["1stFlrSF"] + sample_df["2ndFlrSF"]
+    expected = X["TotalBsmtSF"] + X["1stFlrSF"] + X["2ndFlrSF"]
 
     assert "TotalSF" in result.columns
     pd.testing.assert_series_equal(
@@ -61,13 +67,14 @@ def test_total_sf_created(sample_df):
 def test_total_bathrooms_created(sample_df):
     fe = FeatureEngineer()
 
-    result = fe.transform(sample_df)
+    X, _ = sample_df
+    result = fe.transform(X)
 
     expected = (
-        sample_df["FullBath"]
-        + 0.5 * sample_df["HalfBath"]
-        + sample_df["BsmtFullBath"]
-        + 0.5 * sample_df["BsmtHalfBath"]
+        X["FullBath"]
+        + 0.5 * X["HalfBath"]
+        + X["BsmtFullBath"]
+        + 0.5 * X["BsmtHalfBath"]
     )
 
     assert "TotalBathrooms" in result.columns
@@ -113,8 +120,9 @@ def test_has_pool():
 
 # 11. Original dataframe is unchanged
 def test_original_dataframe_not_modified(sample_df):
-    original = sample_df.copy(deep=True)
+    X, _ = sample_df
+    original = X.copy(deep=True)
 
-    FeatureEngineer().transform(sample_df)
+    FeatureEngineer().transform(X)
 
-    pd.testing.assert_frame_equal(sample_df, original)
+    pd.testing.assert_frame_equal(X, original)

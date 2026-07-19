@@ -7,32 +7,54 @@ Author: Joseph M.P.
 """
 
 import os
-from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+import joblib
+
 from xgboost import XGBRegressor
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
-import joblib
 
 from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.utils.config import CONFIG
-from pkg_house_prices.data.data_loader import X_train, y_train
 from pkg_house_prices.features.missing_ratio_dropper import MissingRatioDropper
 from pkg_house_prices.features.preprocessor import Preprocessor
 from pkg_house_prices.features.preprocessor import FeatureEngineer
+from pkg_house_prices.data.data_loader import load_data, extract_features_target, split_data, save_data
 
 
-def train_model(X_train, y_train, model_type="linear"):
+def data_pipeline(
+    data_path="",
+    target_variable="Y",
+    test_size=0.2,
+    random_state=42,
+    transform_y=False,
+    save_to="",
+    save_as_train="train_features.csv",
+    save_as_test="test_features.csv",
+):
+    """
+    Load data, split into features and target variable, and split into training and testing sets.
+    Returns X_train, X_test, y_train, y_test
+    """
+    dt = load_data(data_path)
+    X, y = extract_features_target(dt, target_variable)
+    X_train, X_test, y_train, y_test = split_data(
+        X, y, test_size=test_size, random_state=random_state, transform_y=transform_y
+    )
+    save_data(X_train, y_train, save_as=save_as_train, save_to=save_to)
+    save_data(X_test, y_test, save_as=save_as_test, save_to=save_to)
+
+    return X_train, X_test, y_train, y_test
+
+
+def train_model_pipeline(model_type="linear"):
     """
     Train a ML model using sklearn Pipeline.
     Supports Linear, Ridge, Lasso, and ElasticNet regression.
 
-    Parameters
+    Parameter
     ----------
-    X_train : pd.DataFrame or np.ndarray
-        Training features
-    y_train : pd.Series or np.ndarray
-        Target variable
     model_type : str
         Type of regression model to train: 'linear', 'ridge', 'lasso', 'elasticnet', 'xgboost'
     Returns
@@ -40,6 +62,26 @@ def train_model(X_train, y_train, model_type="linear"):
     model : sklearn Pipeline
         Trained linear regression pipeline
     """
+
+    # ------------------------
+    # Load Data
+    # -----------------------
+
+    X_train, X_test, y_train, y_test = data_pipeline(
+        data_path=CONFIG["data"]["train"],
+        target_variable=CONFIG["data"]["target"],
+        test_size=CONFIG["training"]["test_size"],
+        random_state=CONFIG["training"]["random_seed"],
+        transform_y=CONFIG["data"]["transform_y"],
+        save_to=CONFIG["data"]["final_output_path"],
+        save_as_train="train_features.csv",
+        save_as_test="test_features.csv",
+    )
+
+    # -----------------------
+    # Model Setup Before Training
+    # -----------------------
+
     model_type = model_type.lower()
     logger.info(f"train_model() - Training model of type: {model_type} ...")
     if model_type == "linear":
@@ -67,7 +109,12 @@ def train_model(X_train, y_train, model_type="linear"):
     else:
         raise ValueError("model_type must be one of 'linear', 'ridge', 'lasso', 'elasticnet'")
 
-    logger.info("train_model() - Training LinearRegression model: Define Pipeline   ...")
+    # -----------------------
+    # Pipeline Setup
+    # -----------------------
+
+    logger.info("train_model() - Fitting pipeline...")
+
     model = Pipeline(
         steps=[
             ("feature_engineer", FeatureEngineer()),
@@ -76,7 +123,10 @@ def train_model(X_train, y_train, model_type="linear"):
             ("regressor", regressor),
         ]
     )
-    logger.info("train_model() - Fitting pipeline...")
+
+    # -----------------------
+    # Model Training Using GridSearchCV for Hyperparameter Tuning
+    # -----------------------
 
     if param_grid:
         logger.info("train_model() - Performing GridSearchCV for hyperparameter tuning...")
@@ -101,6 +151,10 @@ def train_model(X_train, y_train, model_type="linear"):
         model.fit(X_train, y_train)
         logger.info(f"train_model() - CV R^2 score: {avg_cv_score:.4f}")
 
+    # -----------------------
+    # Save the trained model to disk
+    # -----------------------
+
     logger.info("train_model() - Dumping pipeline...")
     # create output path if it doesn't exist
     output_path = CONFIG["models"]["output_path"]
@@ -109,61 +163,3 @@ def train_model(X_train, y_train, model_type="linear"):
     joblib.dump(model, f"{output_path}{model_type}_regression.joblib")
 
     return model, avg_cv_score, train_score, std_cv_score
-
-
-if __name__ == "__main__":
-
-    # show me the variables in X_train with NaN values
-    nan_columns = X_train.columns[X_train.isna().any()].tolist()
-    logger.info(f"Columns in X_train with NaN values: {nan_columns}")
-
-    # Train the model
-    lr_model, lr_cv_score, lr_train_score, lr_std_cv_score = train_model(X_train, y_train, "linear")
-    lasso_model, lasso_cv_score, lasso_train_score, lasso_std_cv_score = train_model(X_train, y_train, "lasso")
-    ridge_model, ridge_cv_score, ridge_train_score, ridge_std_cv_score = train_model(X_train, y_train, "ridge")
-    enet_model, elasticnet_cv_score, elasticnet_train_score, elasticnet_std_cv_score = train_model(
-        X_train, y_train, "elasticnet"
-    )
-    x_gb_model, x_gb_cv_score, x_gb_train_score, x_gb_std_cv_score = train_model(X_train, y_train, "xgboost")
-
-    # print CV scores, train scores, and std CV scores for all models and identify champion model
-    cv_scores = {
-        "Linear Regression": lr_cv_score,
-        "Lasso Regression": lasso_cv_score,
-        "Ridge Regression": ridge_cv_score,
-        "ElasticNet Regression": elasticnet_cv_score,
-        "XGBoost Regression": x_gb_cv_score,
-    }
-    train_scores = {
-        "Linear Regression": lr_model.score(X_train, y_train) if lr_model else None,
-        "Lasso Regression": lasso_train_score,
-        "Ridge Regression": ridge_train_score,
-        "ElasticNet Regression": elasticnet_train_score,
-        "XGBoost Regression": x_gb_train_score,
-    }
-    std_cv_scores = {
-        "Linear Regression": lr_std_cv_score,
-        "Lasso Regression": lasso_std_cv_score,
-        "Ridge Regression": ridge_std_cv_score,
-        "ElasticNet Regression": elasticnet_std_cv_score,
-        "XGBoost Regression": x_gb_std_cv_score,
-    }
-    for model_name, cv_score in cv_scores.items():
-        logger.info(f"{model_name} - CV R^2 Score: {cv_score:.4f}")
-        logger.info(f"{model_name} - Train R^2 Score: {train_scores[model_name]:.4f}")
-        logger.info(f"{model_name} - CV R^2 Score Std Dev: {std_cv_scores[model_name]:.4f}")
-
-    champion_model = max(cv_scores, key=cv_scores.get)
-    logger.info(
-        f"Champion model based on CV R^2 score: {champion_model} with score {cv_scores[champion_model]:.4f}, Train R^2 score: {train_scores[champion_model]:.4f}, CV R^2 score std dev: {std_cv_scores[champion_model]:.4f}"
-    )
-
-    # print the champion model's hyperparameters (if applicable)
-    if champion_model != "Linear Regression":
-        champion_model_pipeline = {
-            "Lasso Regression": lasso_model,
-            "Ridge Regression": ridge_model,
-            "ElasticNet Regression": enet_model,
-            "XGBoost Regression": x_gb_model,
-        }[champion_model]
-        logger.info(f"Champion model hyperparameters: {champion_model_pipeline.named_steps['regressor']}")

@@ -67,3 +67,8 @@ Thumbs.db
 # Python files
 # -------------------------
 test_api.py
+
+# -------------------------
+# VS Code files
+# -------------------------
+*.code-workspace

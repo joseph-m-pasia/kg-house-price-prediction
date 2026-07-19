@@ -34,7 +34,6 @@ logs/
 # -------------------------
 data
 data/processed/
-*.csv
 *.parquet
 *.feather
 *.zip

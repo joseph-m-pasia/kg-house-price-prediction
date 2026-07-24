@@ -1,6 +1,6 @@
 from pkg_house_prices.models.evaluator import evaluate_models
-from pkg_house_prices.utils.logger     import logger
-from pkg_house_prices.models.trainer   import train_model_pipeline
+from pkg_house_prices.utils.logger import logger
+from pkg_house_prices.models.trainer import train_model_pipeline
 from pkg_house_prices.data.data_loader import load_data
 
 import joblib
@@ -18,12 +18,14 @@ if run_train:
     lr_model, lr_cv_score, lr_train_score, lr_std_cv_score = train_model_pipeline("linear")
     lasso_model, lasso_cv_score, lasso_train_score, lasso_std_cv_score = train_model_pipeline("lasso")
     ridge_model, ridge_cv_score, ridge_train_score, ridge_std_cv_score = train_model_pipeline("ridge")
-    enet_model, elasticnet_cv_score, elasticnet_train_score, elasticnet_std_cv_score = train_model_pipeline("elasticnet")
+    enet_model, elasticnet_cv_score, elasticnet_train_score, elasticnet_std_cv_score = train_model_pipeline(
+        "elasticnet"
+    )
     x_gb_model, x_gb_cv_score, x_gb_train_score, x_gb_std_cv_score = train_model_pipeline("xgboost")
 
-# -------------------------------
-# print CV scores, train scores, and std CV scores for all models
-# ------------------------------
+    # -------------------------------
+    # print CV scores, train scores, and std CV scores for all models
+    # ------------------------------
 
     cv_scores = {
         "Linear Regression": lr_cv_score,
@@ -45,16 +47,16 @@ if run_train:
         logger.info(f"{model_name} - CV R^2 Score: {cv_score:.4f}")
         logger.info(f"{model_name} - CV R^2 Score Std Dev: {std_cv_scores[model_name]:.4f}")
 
-# -------------------------------
-# Identify the champion model based on CV R^2 score
-# -------------------------------
+    # -------------------------------
+    # Identify the champion model based on CV R^2 score
+    # -------------------------------
 
     champion_model = max(cv_scores, key=cv_scores.get)
     logger.info(
         f"Champion model based on CV R^2 score: {champion_model} with score {cv_scores[champion_model]:.4f}, CV R^2 score std dev: {std_cv_scores[champion_model]:.4f}"
     )
 
-# print the champion model's hyperparameters (if applicable)
+    # print the champion model's hyperparameters (if applicable)
     if champion_model != "Linear Regression":
         champion_model_pipeline = {
             "Lasso Regression": lasso_model,
@@ -72,13 +74,13 @@ if run_train:
 if run_evaluate:
 
     # load test data
-    test_data = load_data(data_path = "D:/Joseph/Projects/kg-house-price-prediction/data/test_features.csv")
+    test_data = load_data(data_path="D:/Joseph/Projects/kg-house-price-prediction/data/test_features.csv")
 
     X_test = test_data.drop(columns="SalePrice")
     y_test = test_data["SalePrice"]
-                    
+
     # load champion model
     model = joblib.load("artifacts/trained_models/xgboost_regression.joblib")
-     
+
     # evaluate the model using the test data                    ]
     results = evaluate_models({"xgb": model}, X_test, y_test)

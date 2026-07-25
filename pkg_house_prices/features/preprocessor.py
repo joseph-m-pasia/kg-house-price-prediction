@@ -84,6 +84,9 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         return self  # Nothing to fit
 
+    def get_feature_names_out(self, input_features=None):
+        return np.array(self.output_features_)
+
     def transform(self, X):
         X = X.copy()
 
@@ -138,6 +141,3 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
         self.output_features_ = X.columns.tolist()
 
         return X
-
-    def get_feature_names_out(self, input_features=None):
-        return np.array(self.output_features_)

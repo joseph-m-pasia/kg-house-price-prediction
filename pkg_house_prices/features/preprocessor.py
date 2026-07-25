@@ -55,7 +55,11 @@ class Preprocessor(BaseEstimator, TransformerMixin):
 
     def transform(self, X):
         X_df = pd.DataFrame(X)
+        
         return self.preprocessor_.transform(X_df)
+
+    def get_feature_names_out(self, input_features=None):
+        return self.preprocessor_.get_feature_names_out()
 
 
 class FeatureEngineer(BaseEstimator, TransformerMixin):
@@ -129,5 +133,10 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
             X["HasDeck"] = (X["WoodDeckSF"] > 0).astype(int)
         if "Fence" in X.columns:
             X["HasFence"] = X["Fence"].notna().astype(int)
+ 
+        self.output_features_ = X.columns.tolist()
 
         return X
+
+    def get_feature_names_out(self, input_features=None):
+        return np.array(self.output_features_)

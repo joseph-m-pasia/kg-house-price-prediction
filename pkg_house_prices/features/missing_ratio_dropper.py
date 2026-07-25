@@ -31,3 +31,6 @@ class MissingRatioDropper(BaseEstimator, TransformerMixin):
         X_df = pd.DataFrame(X)
 
         return X_df[self.columns_to_keep_]
+
+    def get_feature_names_out(self, input_features=None):
+        return np.array(self.columns_to_keep_)

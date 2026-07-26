@@ -9,7 +9,6 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
-
 # ============================================================
 # ENUMS
 # ============================================================
@@ -26,17 +25,14 @@ from app.schemas.enums import (
     PavedDrive,
 )
 
-
 # ============================================================
 # USER INPUT
 # ============================================================
 
+
 class HouseFeatures(BaseModel):
 
-    model_config = ConfigDict(
-        use_enum_values=True,
-        extra="forbid"
-    )
+    model_config = ConfigDict(use_enum_values=True, extra="forbid")
 
     # ----------------------------
     # Overall Quality
@@ -133,6 +129,7 @@ class HouseFeatures(BaseModel):
 # ============================================================
 # OUTPUT
 # ============================================================
+
 
 class PredictionResponse(BaseModel):
 

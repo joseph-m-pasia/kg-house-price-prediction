@@ -32,10 +32,7 @@ def predict(features: HouseFeatures) -> PredictionResponse:
     # Convert Pydantic model to dictionary
     # ---------------------------------------------------------
 
-    user_features = features.model_dump(
-        by_alias=True,
-        exclude_none=True
-    )
+    user_features = features.model_dump(by_alias=True, exclude_none=True)
 
     # ---------------------------------------------------------
     # Merge defaults with user inputs
@@ -43,10 +40,7 @@ def predict(features: HouseFeatures) -> PredictionResponse:
     # User values overwrite defaults.
     # ---------------------------------------------------------
 
-    model_input = {
-        **DEFAULT_FEATURES,
-        **user_features
-    }
+    model_input = {**DEFAULT_FEATURES, **user_features}
 
     # ---------------------------------------------------------
     # Convert to DataFrame
@@ -64,6 +58,4 @@ def predict(features: HouseFeatures) -> PredictionResponse:
     # Return response object
     # ---------------------------------------------------------
 
-    return PredictionResponse(
-        predicted_sale_price=float(prediction)
-    )
+    return PredictionResponse(predicted_sale_price=float(prediction))

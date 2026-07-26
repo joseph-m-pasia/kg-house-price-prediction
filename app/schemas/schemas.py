@@ -4,9 +4,6 @@ schemas.py
 Input and output schemas for the House Price Predictor.
 """
 
-from enum import Enum
-from typing import Optional
-
 from pydantic import BaseModel, ConfigDict, Field
 
 # ============================================================

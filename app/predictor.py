@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from app.model_loader import pipeline
+from app.model_loader import get_pipeline
 from app.schemas.defaults import DEFAULT_FEATURES
 from app.schemas.schemas import HouseFeatures, PredictionResponse
 
@@ -52,6 +52,7 @@ def predict(features: HouseFeatures) -> PredictionResponse:
     # Predict
     # ---------------------------------------------------------
 
+    pipeline = get_pipeline()
     prediction = pipeline.predict(X)[0]
 
     # ---------------------------------------------------------

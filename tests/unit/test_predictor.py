@@ -40,8 +40,8 @@ def test_predict_returns_prediction():
     fake_pipeline.predict.return_value = [250000]
 
     with patch(
-        "app.predictor.pipeline",
-        fake_pipeline,
+        "app.predictor.get_pipeline",
+        return_value = fake_pipeline,
     ):
         result = predict(house)
 

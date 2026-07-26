@@ -1,6 +1,9 @@
 from pathlib import Path
 import joblib
 
-MODEL_PATH = Path("artifacts/trained_models/xgboost_regression.joblib")
+MODEL_PATH = Path(__file__).parents[1] / "artifacts" / "trained_models" / "xgboost_regression.joblib"
 
-pipeline = joblib.load(MODEL_PATH)
+
+def get_pipeline():
+    """Load the trained pipeline."""
+    return joblib.load(MODEL_PATH)

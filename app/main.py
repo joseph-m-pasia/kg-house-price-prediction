@@ -116,9 +116,7 @@ def predict(data: PredictionRequest):
         # Predict the outcome
         prediction = model.predict(df)[0]
 
-        return PredictionResponse(
-            prediction=float(prediction)
-        )
+        return PredictionResponse(prediction=float(prediction))
 
     except Exception as e:
         logger.error(f"Error occurred while making prediction: {e}")

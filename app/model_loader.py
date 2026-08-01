@@ -7,6 +7,7 @@ MODEL_PATH = Path(__file__).parents[1] / "artifacts" / "trained_models" / "xgboo
 
 model_bundle = None  # Global variable to hold the loaded model
 
+
 # ------    -----------------------------------------------------------------------
 # Model loading
 # -----------------------------------------------------------------------------

@@ -15,7 +15,7 @@ from pathlib import Path
 from pkg_house_prices.utils.logger import logger
 
 from app.schemas.schemas import PredictionRequest, PredictionResponse
-from app.model_loader    import get_model
+from app.model_loader import get_model
 
 # -----------------------------------------------------------------------------
 # Configuration

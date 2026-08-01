@@ -6,11 +6,21 @@ from pkg_house_prices.utils.config import CONFIG
 
 
 # Load the model
-def read_joblib(path, filename):
-    logger.info(f"read_joblib() - Loading model from {path}/{filename} ...")
-    full_path = os.path.join(path, filename)
-    model = joblib.load(full_path)
-    return model
+def load_ml_model(model_path: str = None):
+    """
+    Load a trained ML model from disk.
+    Asumes the model is saved as a .pkl file using joblib.
+    Args:    model_path (str): The path to the saved model file.
+    Returns: The loaded model object, or None if the file does not exist.
+    """
+    logger.info("Loading model and its metrics...")
+
+    if os.path.exists(model_path):
+        ml_model = joblib.load(model_path)
+        return ml_model
+    else:
+        logger.warning(f"Model not found at {model_path}. Returning None.")
+        return None
 
 
 def read_config(*keys):

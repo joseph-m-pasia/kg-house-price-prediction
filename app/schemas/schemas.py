@@ -27,7 +27,7 @@ from app.schemas.enums import (
 # ============================================================
 
 
-class HouseFeatures(BaseModel):
+class PredictionRequest(BaseModel):
 
     model_config = ConfigDict(use_enum_values=True, extra="forbid")
 

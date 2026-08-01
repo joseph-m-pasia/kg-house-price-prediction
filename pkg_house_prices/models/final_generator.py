@@ -4,10 +4,12 @@ Author: Joseph M.P.
 
 """
 
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 from pkg_house_prices.utils.logger import logger
-from pkg_house_prices.utils.helpers import read_joblib
+from pkg_house_prices.utils.helpers import load_ml_model
 from pkg_house_prices.utils.project_root import PROJECT_ROOT
 from pkg_house_prices.utils.config import CONFIG
 
@@ -17,7 +19,8 @@ from pkg_house_prices.utils.config import CONFIG
 logger.info("task_04_generate_final_results.py - Loading the champion model and generating final predictions...")
 champion_model_name = "XGBoost Regression"  # Replace with the actual best model name
 output_path_model = CONFIG["models"]["output_path"]
-champion_model = read_joblib(PROJECT_ROOT / output_path_model, "champion_xgboost_regression.joblib")
+champion_model = load_ml_model(Path(PROJECT_ROOT, output_path_model, "champion_xgboost_regression.joblib"))
+
 
 # Read the test data
 logger.info("task_04_generate_final_results.py - Loading test data for predictions...")

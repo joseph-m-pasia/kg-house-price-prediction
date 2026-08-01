@@ -6,9 +6,7 @@ To execute locally:
 4. The response will include the prediction, probability, and risk category.
 """
 
-import joblib
 import pandas as pd
-import os
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
@@ -117,10 +115,9 @@ def predict(data: PredictionRequest):
 
         # Predict the outcome
         prediction = model.predict(df)[0]
-        probability = model.predict_proba(df)[0][1]
 
         return PredictionResponse(
-            prediction=int(prediction), probability=float(probability), risk_category=risk_category
+            prediction=float(prediction)
         )
 
     except Exception as e:

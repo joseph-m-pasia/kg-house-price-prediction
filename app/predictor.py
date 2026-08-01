@@ -8,18 +8,18 @@ from __future__ import annotations
 
 import pandas as pd
 
-from app.model_loader import get_pipeline
 from app.schemas.defaults import DEFAULT_FEATURES
-from app.schemas.schemas import HouseFeatures, PredictionResponse
+from app.schemas.schemas import PredictionRequest, PredictionResponse
+from app.model_loader import get_model
 
 
-def predict(features: HouseFeatures) -> PredictionResponse:
+def predict(features: PredictionRequest) -> PredictionResponse:
     """
     Predict the sale price of a house.
 
     Parameters
     ----------
-    features : HouseFeatures
+    features : PredictionRequest
         User supplied house features.
 
     Returns
@@ -52,7 +52,7 @@ def predict(features: HouseFeatures) -> PredictionResponse:
     # Predict
     # ---------------------------------------------------------
 
-    pipeline = get_pipeline()
+    pipeline = get_model()
     prediction = pipeline.predict(X)[0]
 
     # ---------------------------------------------------------

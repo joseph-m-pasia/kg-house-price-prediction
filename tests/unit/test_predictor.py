@@ -1,12 +1,12 @@
 from unittest.mock import Mock, patch
 
 from app.predictor import predict
-from app.schemas.schemas import HouseFeatures
+from app.schemas.schemas import PredictionRequest
 
 
 def test_predict_returns_prediction():
 
-    house = HouseFeatures(
+    house = PredictionRequest(
         OverallQual=7,
         OverallCond=5,
         TotalBsmtSF=900,
@@ -36,12 +36,12 @@ def test_predict_returns_prediction():
         YrSold=2010,
     )
 
-    fake_pipeline = Mock()
-    fake_pipeline.predict.return_value = [250000]
+    fake_model = Mock()
+    fake_model.predict.return_value = [250000]
 
     with patch(
-        "app.predictor.get_pipeline",
-        return_value=fake_pipeline,
+        "app.predictor.get_model",
+        return_value=fake_model,
     ):
         result = predict(house)
 

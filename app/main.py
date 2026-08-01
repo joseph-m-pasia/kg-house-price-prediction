@@ -13,7 +13,6 @@ from fastapi import FastAPI, HTTPException
 from pathlib import Path
 
 from pkg_house_prices.utils.logger import logger
-from pkg_house_prices.utils.helpers import load_ml_model
 
 from app.schemas.schemas import PredictionRequest, PredictionResponse
 
@@ -70,21 +69,6 @@ def root():
 
 
 # -----------------------------------------------------------------------------
-# Model loading
-# -----------------------------------------------------------------------------
-def get_model():
-
-    logger.info("Loading model and feature names...")
-    global model_bundle
-    if model_bundle is None:
-        # Load the bundle saved by save_model()
-        model_bundle = load_ml_model(MODEL_PATH)
-
-    # Return the model
-    return model_bundle
-
-
-# -----------------------------------------------------------------------------
 # Prediction endpoint
 # -----------------------------------------------------------------------------
 
@@ -102,7 +86,7 @@ def predict(data: PredictionRequest):
     logger.info("Received prediction request...")
 
     # load the model and feature names
-    model, feature_names = get_model()
+    model = get_model()
 
     try:
 

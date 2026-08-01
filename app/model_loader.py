@@ -5,6 +5,7 @@ from pkg_house_prices.utils.helpers import load_ml_model
 
 MODEL_PATH = Path(__file__).parents[1] / "artifacts" / "trained_models" / "xgboost_regression.joblib"
 
+model_bundle = None  # Global variable to hold the loaded model
 
 # ------    -----------------------------------------------------------------------
 # Model loading

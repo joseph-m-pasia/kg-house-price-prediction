@@ -15,15 +15,13 @@ from pathlib import Path
 from pkg_house_prices.utils.logger import logger
 
 from app.schemas.schemas import PredictionRequest, PredictionResponse
+from app.model_loader    import get_model
 
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
 
 MODEL_PATH = Path("artifacts/xgboost_regression.joblib")
-
-model_bundle = None
-
 
 # -----------------------------------------------------------------------------
 # FastAPI lifespan
@@ -44,9 +42,6 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
-
-model_bundle = None
-
 
 # -----------------------------------------------------------------------------
 # Health endpoint
@@ -92,10 +87,6 @@ def predict(data: PredictionRequest):
 
         # Create a DataFrame from the input data
         df = pd.DataFrame([data.model_dump()])
-
-        # Ensure the DataFrame has the same columns as the model was trained on
-        if feature_names is not None:
-            df = df[feature_names]
 
         # Predict the outcome
         prediction = model.predict(df)[0]

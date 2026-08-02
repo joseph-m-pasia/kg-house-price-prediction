@@ -22,7 +22,7 @@ from app.schemas.defaults import DEFAULT_FEATURES
 # Configuration
 # -----------------------------------------------------------------------------
 
-MODEL_PATH = Path("artifacts/xgboost_regression.joblib")
+MODEL_PATH = Path("artifacts/model.joblib")
 
 # -----------------------------------------------------------------------------
 # FastAPI lifespan

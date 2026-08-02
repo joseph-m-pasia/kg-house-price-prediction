@@ -8,7 +8,6 @@ cache
 .vscode
 pkg_credit_default.egg-info
 tests
-tset_models
 data
 artifacts/models/
 notebooks

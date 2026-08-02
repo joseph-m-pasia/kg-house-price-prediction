@@ -1,3 +1,5 @@
+from matplotlib.path import Path
+
 from pkg_house_prices.models.evaluator import evaluate_models
 from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.models.trainer import train_model_pipeline
@@ -8,7 +10,8 @@ import joblib
 # ==================== LAUNCH THE TRAINING PIPELINE ==============================    git s
 
 run_train = False
-run_evaluate = True
+run_evaluate = False
+copy_champion = True
 
 # -------------------------------
 # Train the model
@@ -90,3 +93,12 @@ if run_evaluate:
     print(model.named_steps.keys())
     print(hasattr(model, "feature_names_in_"))
     print(getattr(model, "feature_names_in_", None))
+
+if copy_champion:
+
+    # copy the champion model to the artifacts directory
+    import shutil
+
+    champion_model_dir = "artifacts/trained_models/xgboost_regression.joblib"
+
+    shutil.copy(champion_model_dir, "artifacts/model.joblib")

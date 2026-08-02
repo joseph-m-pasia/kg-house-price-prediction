@@ -1,5 +1,6 @@
 .git
 .github
+.coverage
 .pytest_cache
 __pycache__
 *.pyc
@@ -8,8 +9,9 @@ cache
 .vscode
 pkg_credit_default.egg-info
 tests
+notebooks
 data
-artifacts/models/
+artifacts/trained_models/
 notebooks
 pkg_house_prices/data/raw
 pkg_house_prices/data/outputs

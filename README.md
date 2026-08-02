@@ -25,7 +25,7 @@ Raw Data -> Data Cleaning -> Feature Engineering -> Train/Test Split -> Model Tr
 
 ## Installation
 
-git clone https://github.com/yourusername/kg-house-price-prediction.git
+git clone https://github.com/joseph-m-pasia/kg-house-price-prediction.git
 
 cd kg-house-price-prediction
 

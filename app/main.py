@@ -9,7 +9,7 @@ To execute locally:
 import pandas as pd
 
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pathlib import Path
 
 from pkg_house_prices.utils.logger import logger

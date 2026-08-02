@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from app.predictor import predict
+from app.main import predict
 from app.schemas.schemas import PredictionRequest
 
 
@@ -40,7 +40,7 @@ def test_predict_returns_prediction():
     fake_model.predict.return_value = [250000]
 
     with patch(
-        "app.predictor.get_model",
+        "app.main.get_model",
         return_value=fake_model,
     ):
         result = predict(house)

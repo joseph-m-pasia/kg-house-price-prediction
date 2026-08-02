@@ -13,7 +13,7 @@ model_bundle = None  # Global variable to hold the loaded model
 # -----------------------------------------------------------------------------
 def get_model():
 
-    logger.info("Loading model and feature names...")
+    logger.info("get_model() - Loading model ...")
     global model_bundle
     if model_bundle is None:
         # Load the bundle saved by save_model()

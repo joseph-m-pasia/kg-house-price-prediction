@@ -7,7 +7,7 @@ import joblib
 
 # ==================== LAUNCH THE TRAINING PIPELINE ==============================    git s
 
-run_train = True
+run_train = False
 run_evaluate = True
 
 # -------------------------------
@@ -84,3 +84,9 @@ if run_evaluate:
 
     # evaluate the model using the test data                    ]
     results = evaluate_models({"xgb": model}, X_test, y_test)
+
+    # print the  variable names of the raw input features used in the model
+    print(model.named_steps["feature_engineer"])
+    print(model.named_steps.keys())
+    print(hasattr(model, "feature_names_in_"))
+    print(getattr(model, "feature_names_in_", None))

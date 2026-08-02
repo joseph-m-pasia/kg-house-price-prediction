@@ -13,7 +13,7 @@ def load_ml_model(model_path: str = None):
     Args:    model_path (str): The path to the saved model file.
     Returns: The loaded model object, or None if the file does not exist.
     """
-    logger.info("Loading model and its metrics...")
+    logger.info("load_ml_model() - Loading model...")
 
     if os.path.exists(model_path):
         ml_model = joblib.load(model_path)

@@ -116,11 +116,11 @@ class PredictionRequest(BaseModel):
     # Dates
     # ----------------------------
 
-    YearBuilt: int = Field(ge=1800, le=2100)
+    YearBuilt: int = Field(ge=1800, le=2025)
 
-    YearRemodAdd: int = Field(ge=1800, le=2100)
+    YearRemodAdd: int = Field(ge=1800, le=2025)
 
-    YrSold: int = Field(ge=2006, le=2010)
+    YrSold: int = Field(ge=2006, le=2025)
 
 
 # ============================================================

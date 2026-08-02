@@ -16,6 +16,7 @@ from pkg_house_prices.utils.logger import logger
 
 from app.schemas.schemas import PredictionRequest, PredictionResponse
 from app.model_loader import get_model
+from app.schemas.defaults import DEFAULT_FEATURES
 
 # -----------------------------------------------------------------------------
 # Configuration
@@ -69,30 +70,52 @@ def root():
 
 
 @app.post("/predict", response_model=PredictionResponse)
-def predict(data: PredictionRequest):
+def predict(features: PredictionRequest) -> PredictionResponse:
     """
-    Endpoint to make predictions using the trained model.
-    Args:
-        data (PredictionRequest): Input data for prediction.
-    Returns:
-        PredictionResponse: The prediction result and probability.
+    Predict the sale price of a house.
+
+    Parameters
+    ----------
+    features : PredictionRequest
+        User supplied house features.
+
+    Returns
+    -------
+    PredictionResponse
+        Predicted sale price.
     """
 
-    logger.info("Received prediction request...")
+    # ---------------------------------------------------------
+    # Convert Pydantic model to dictionary
+    # ---------------------------------------------------------
 
-    # load the model and feature names
-    model = get_model()
+    user_features = features.model_dump(by_alias=True, exclude_none=True)
 
-    try:
+    # ---------------------------------------------------------
+    # Merge defaults with user inputs
+    #
+    # User values overwrite defaults.
+    # ---------------------------------------------------------
 
-        # Create a DataFrame from the input data
-        df = pd.DataFrame([data.model_dump()])
+    model_input = {**DEFAULT_FEATURES, **user_features}
 
-        # Predict the outcome
-        prediction = model.predict(df)[0]
+    # ---------------------------------------------------------
+    # Convert to DataFrame
+    # ---------------------------------------------------------
 
-        return PredictionResponse(prediction=float(prediction))
+    X = pd.DataFrame([model_input])
 
-    except Exception as e:
-        logger.error(f"Error occurred while making prediction: {e}")
-        raise HTTPException(status_code=500, detail="Error occurred while making prediction")
+    logger.info("predict() - Input columns:")
+    logger.info(X.columns.tolist())
+    # ---------------------------------------------------------
+    # Predict
+    # ---------------------------------------------------------
+
+    pipeline = get_model()
+    prediction = pipeline.predict(X)[0]
+
+    # ---------------------------------------------------------
+    # Return response object
+    # ---------------------------------------------------------
+
+    return PredictionResponse(predicted_sale_price=float(prediction))

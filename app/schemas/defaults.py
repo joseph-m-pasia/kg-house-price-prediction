@@ -5,14 +5,24 @@ These defaults are merged with the user input before prediction.
 """
 
 DEFAULT_FEATURES = {
+    # ---------- Identification ----------
+    "Id": 0,
+    # ---------- Building ----------
+    "MSSubClass": 20,
+    "BldgType": "1Fam",
+    "HouseStyle": "1Story",
     # ---------- Lot ----------
     "LotFrontage": 70.0,
+    "LotArea": 10000,
     "Street": "Pave",
     "Alley": "NA",
-    "LotConfig": "Inside",
     "LandContour": "Lvl",
-    "LandSlope": "Gtl",
     "Utilities": "AllPub",
+    "LotConfig": "Inside",
+    "LandSlope": "Gtl",
+    "Neighborhood": "NAmes",
+    "Condition1": "Norm",
+    "Condition2": "Norm",
     # ---------- Exterior ----------
     "RoofStyle": "Gable",
     "RoofMatl": "CompShg",
@@ -20,7 +30,9 @@ DEFAULT_FEATURES = {
     "Exterior2nd": "VinylSd",
     "MasVnrType": "None",
     "MasVnrArea": 0.0,
+    "ExterQual": "TA",
     "ExterCond": "TA",
+    "Foundation": "PConc",
     # ---------- Basement ----------
     "BsmtCond": "TA",
     "BsmtExposure": "No",
@@ -33,8 +45,17 @@ DEFAULT_FEATURES = {
     "Heating": "GasA",
     "HeatingQC": "Ex",
     "Electrical": "SBrkr",
+    # ---------- Rooms ----------
+    "1stFlrSF": 1000,
+    "2ndFlrSF": 0,
+    "LowQualFinSF": 0,
+    "BedroomAbvGr": 3,
+    "TotRmsAbvGrd": 6,
+    "Functional": "Typ",
+    "FireplaceQu": "NA",
     # ---------- Garage ----------
     "GarageYrBlt": 2000,
+    "GarageArea": 0,
     "GarageCond": "TA",
     # ---------- Porch ----------
     "WoodDeckSF": 0,
@@ -54,4 +75,10 @@ DEFAULT_FEATURES = {
     "MoSold": 6,
     "SaleType": "WD",
     "SaleCondition": "Normal",
+    # ---------- Engineered Features ----------
+    "TotalSF": 1000,
+    "HasPool": 0,
+    "HasSecondFloor": 0,
+    "HasDeck": 0,
+    "HasFence": 0,
 }

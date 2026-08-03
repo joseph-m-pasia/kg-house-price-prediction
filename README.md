@@ -37,25 +37,18 @@ This allows Python to import the project package: pkg_house_prices
 ## Dependencies
 
 Main libraries used in this project:
- - TensorFlow
  - Pandas
  - NumPy
  - Scikit-learn
  - Matplotlib
  - Dependencies are defined in pyproject.toml.
 
-## Running the Training Pipeline
+## Running the Training Pipeline (Locally)
 
 From the project root: 
 
-python -m pkg_house_prices.models.task_01_train_models
-
-This will:
- - Load the dataset
- - Process and transform features
- - Train machine learning models
- - Evaluate model performance
- - Save trained models
+specify the settings in run.py
+python run.py
 
 ## Kaggle Leaderboard 
 

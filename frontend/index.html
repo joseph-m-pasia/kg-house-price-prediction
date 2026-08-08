@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>House Price Predictor</title>
+
+<link rel="stylesheet" href="style.css">
+```
+
+</head>
+
+<body>
+
+```
+<main class="container">
+
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
+
+    <header class="page-header">
+        <h1>House Price Predictor</h1>
+
+        <p>
+            Enter the property characteristics below to estimate
+            the house price.
+        </p>
+    </header>
+
+
+    <!-- =========================================================
+         PREDICTION FORM
+    ========================================================== -->
+
+    <form id="prediction-form">
+
+
+        <!-- =====================================================
+             PROPERTY QUALITY
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Property Quality</h2>
+
+            <div class="form-group">
+
+                <label for="overall-qual">
+                    Overall Quality
+                </label>
+
+                <input
+                    type="number"
+                    id="overall-qual"
+                    name="OverallQual"
+                    min="1"
+                    max="10"
+                    step="1"
+                    required
+                >
+
+                <small>
+                    Overall material and finish quality (1–10).
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="overall-cond">
+                    Overall Condition
+                </label>
+
+                <input
+                    type="number"
+                    id="overall-cond"
+                    name="OverallCond"
+                    min="1"
+                    max="10"
+                    step="1"
+                    required
+                >
+
+                <small>
+                    Overall condition of the property (1–10).
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LIVING AREA
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Living Area</h2>
+
+            <div class="form-group">
+
+                <label for="total-bsmt-sf">
+                    Total Basement Area (sq ft)
+                </label>
+
+                <input
+                    type="number"
+                    id="total-bsmt-sf"
+                    name="TotalBsmtSF"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="first-flr-sf">
+                    First Floor Area (sq ft)
+                </label>
+
+                <input
+                    type="number"
+                    id="first-flr-sf"
+                    name="1stFlrSF"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="second-flr-sf">
+                    Second Floor Area (sq ft)
+                </label>
+
+                <input
+                    type="number"
+                    id="second-flr-sf"
+                    name="2ndFlrSF"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="gr-liv-area">
+                    Living Area (sq ft)
+                </label>
+
+                <input
+                    type="number"
+                    id="gr-liv-area"
+                    name="GrLivArea"
+                    min="0.01"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             BATHROOMS
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Bathrooms</h2>
+
+
+            <div class="form-group">
+
+                <label for="full-bath">
+                    Full Bathrooms
+                </label>
+
+                <input
+                    type="number"
+                    id="full-bath"
+                    name="FullBath"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="half-bath">
+                    Half Bathrooms
+                </label>
+
+                <input
+                    type="number"
+                    id="half-bath"
+                    name="HalfBath"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="bsmt-full-bath">
+                    Basement Full Bathrooms
+                </label>
+
+                <input
+                    type="number"
+                    id="bsmt-full-bath"
+                    name="BsmtFullBath"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="bsmt-half-bath">
+                    Basement Half Bathrooms
+                </label>
+
+                <input
+                    type="number"
+                    id="bsmt-half-bath"
+                    name="BsmtHalfBath"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             KITCHEN
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Kitchen</h2>
+
+
+            <div class="form-group">
+
+                <label for="kitchen-qual">
+                    Kitchen Quality
+                </label>
+
+                <select
+                    id="kitchen-qual"
+                    name="KitchenQual"
+                    required
+                >
+
+                    <option value="">
+                        Select quality
+                    </option>
+
+                    <option value="Ex">
+                        Excellent
+                    </option>
+
+                    <option value="Gd">
+                        Good
+                    </option>
+
+                    <option value="TA">
+                        Typical
+                    </option>
+
+                    <option value="Fa">
+                        Fair
+                    </option>
+
+                    <option value="Po">
+                        Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="kitchen-abv-gr">
+                    Kitchens Above Grade
+                </label>
+
+                <input
+                    type="number"
+                    id="kitchen-abv-gr"
+                    name="KitchenAbvGr"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GARAGE
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Garage</h2>
+
+
+            <div class="form-group">
+
+                <label for="garage-cars">
+                    Garage Capacity (cars)
+                </label>
+
+                <input
+                    type="number"
+                    id="garage-cars"
+                    name="GarageCars"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="garage-qual">
+                    Garage Quality
+                </label>
+
+                <select
+                    id="garage-qual"
+                    name="GarageQual"
+                    required
+                >
+
+                    <option value="">
+                        Select quality
+                    </option>
+
+                    <option value="Ex">
+                        Excellent
+                    </option>
+
+                    <option value="Gd">
+                        Good
+                    </option>
+
+                    <option value="TA">
+                        Typical
+                    </option>
+
+                    <option value="Fa">
+                        Fair
+                    </option>
+
+                    <option value="Po">
+                        Poor
+                    </option>
+
+                    <option value="NA">
+                        No Garage
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="garage-finish">
+                    Garage Finish
+                </label>
+
+                <select
+                    id="garage-finish"
+                    name="GarageFinish"
+                    required
+                >
+
+                    <option value="">
+                        Select finish
+                    </option>
+
+                    <option value="Fin">
+                        Finished
+                    </option>
+
+                    <option value="RFn">
+                        Rough Finished
+                    </option>
+
+                    <option value="Unf">
+                        Unfinished
+                    </option>
+
+                    <option value="NA">
+                        No Garage
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="garage-type">
+                    Garage Type
+                </label>
+
+                <select
+                    id="garage-type"
+                    name="GarageType"
+                    required
+                >
+
+                    <option value="">
+                        Select type
+                    </option>
+
+                    <option value="Attchd">
+                        Attached
+                    </option>
+
+                    <option value="Detchd">
+                        Detached
+                    </option>
+
+                    <option value="BuiltIn">
+                        Built-In
+                    </option>
+
+                    <option value="Basment">
+                        Basement
+                    </option>
+
+                    <option value="CarPort">
+                        Car Port
+                    </option>
+
+                    <option value="2Types">
+                        Two Types
+                    </option>
+
+                    <option value="NA">
+                        No Garage
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             BASEMENT
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Basement</h2>
+
+
+            <div class="form-group">
+
+                <label for="bsmt-qual">
+                    Basement Quality
+                </label>
+
+                <select
+                    id="bsmt-qual"
+                    name="BsmtQual"
+                    required
+                >
+
+                    <option value="">
+                        Select quality
+                    </option>
+
+                    <option value="Ex">
+                        Excellent
+                    </option>
+
+                    <option value="Gd">
+                        Good
+                    </option>
+
+                    <option value="TA">
+                        Typical
+                    </option>
+
+                    <option value="Fa">
+                        Fair
+                    </option>
+
+                    <option value="Po">
+                        Poor
+                    </option>
+
+                    <option value="NA">
+                        No Basement
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURES
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Features</h2>
+
+
+            <div class="form-group">
+
+                <label for="fireplaces">
+                    Fireplaces
+                </label>
+
+                <input
+                    type="number"
+                    id="fireplaces"
+                    name="Fireplaces"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="central-air">
+                    Central Air Conditioning
+                </label>
+
+                <select
+                    id="central-air"
+                    name="CentralAir"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Y">
+                        Yes
+                    </option>
+
+                    <option value="N">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PROPERTY
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Property</h2>
+
+
+            <div class="form-group">
+
+                <label for="lot-shape">
+                    Lot Shape
+                </label>
+
+                <select
+                    id="lot-shape"
+                    name="LotShape"
+                    required
+                >
+
+                    <option value="">
+                        Select lot shape
+                    </option>
+
+                    <option value="Reg">
+                        Regular
+                    </option>
+
+                    <option value="IR1">
+                        Slightly Irregular
+                    </option>
+
+                    <option value="IR2">
+                        Moderately Irregular
+                    </option>
+
+                    <option value="IR3">
+                        Very Irregular
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="ms-zoning">
+                    Zoning
+                </label>
+
+                <select
+                    id="ms-zoning"
+                    name="MSZoning"
+                    required
+                >
+
+                    <option value="">
+                        Select zoning
+                    </option>
+
+                    <option value="RL">
+                        Residential Low Density
+                    </option>
+
+                    <option value="RM">
+                        Residential Medium Density
+                    </option>
+
+                    <option value="FV">
+                        Floating Village Residential
+                    </option>
+
+                    <option value="RH">
+                        Residential High Density
+                    </option>
+
+                    <option value="C">
+                        Commercial
+                    </option>
+
+                    <option value="A">
+                        Agriculture
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="paved-drive">
+                    Paved Driveway
+                </label>
+
+                <select
+                    id="paved-drive"
+                    name="PavedDrive"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Y">
+                        Paved
+                    </option>
+
+                    <option value="P">
+                        Partially Paved
+                    </option>
+
+                    <option value="N">
+                        Not Paved
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             DATES
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <h2>Property Dates</h2>
+
+
+            <div class="form-group">
+
+                <label for="year-built">
+                    Year Built
+                </label>
+
+                <input
+                    type="number"
+                    id="year-built"
+                    name="YearBuilt"
+                    min="1800"
+                    max="2025"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="year-remod-add">
+                    Year Remodeled
+                </label>
+
+                <input
+                    type="number"
+                    id="year-remod-add"
+                    name="YearRemodAdd"
+                    min="1800"
+                    max="2025"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="yr-sold">
+                    Year Sold
+                </label>
+
+                <input
+                    type="number"
+                    id="yr-sold"
+                    name="YrSold"
+                    min="2006"
+                    max="2025"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SUBMIT
+        ====================================================== -->
+
+        <button
+            type="submit"
+            id="predict-button"
+        >
+            Predict House Price
+        </button>
+
+    </form>
+
+
+    <!-- =========================================================
+         RESULT
+    ========================================================== -->
+
+    <section
+        id="prediction-result"
+        class="prediction-result"
+        hidden
+    >
+
+        <h2>Predicted House Price</h2>
+
+        <p id="predicted-price">
+            --
+        </p>
+
+    </section>
+
+
+    <!-- =========================================================
+         ERROR MESSAGE
+    ========================================================== -->
+
+    <div
+        id="error-message"
+        class="error-message"
+        hidden
+    >
+    </div>
+
+</main>
+
+
+<!-- =============================================================
+     JAVASCRIPT
+============================================================== -->
+
+<script src="script.js"></script>
+```
+
+</body>
+
+</html>

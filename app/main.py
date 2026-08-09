@@ -73,7 +73,7 @@ def health():
 @app.get("/")
 def root():
     return FileResponse("frontend/index.html")
-    
+
 
 # -----------------------------------------------------------------------------
 # Prediction endpoint

@@ -183,7 +183,7 @@ form.addEventListener("click", async function (event) {
     try {
 
         const response = await fetch(
-            "http://localhost:8000/predict",
+            "/predict",
             {
                 method: "POST",
 

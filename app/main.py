@@ -11,6 +11,8 @@ import numpy as np
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from pkg_house_prices.utils.logger import logger
@@ -47,6 +49,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount(
+    "/static",
+    StaticFiles(directory="frontend"),
+    name="static",
+)
+
 # -----------------------------------------------------------------------------
 # Health endpoint
 # -----------------------------------------------------------------------------
@@ -64,8 +72,8 @@ def health():
 
 @app.get("/")
 def root():
-    return {"message": "House Price Prediction API", "version": "1.0.0", "docs": "/docs", "health": "/health"}
-
+    return FileResponse("frontend/index.html")
+    
 
 # -----------------------------------------------------------------------------
 # Prediction endpoint

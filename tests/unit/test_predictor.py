@@ -1,4 +1,6 @@
 from unittest.mock import Mock, patch
+import numpy as np
+import pytest
 
 from app.main import predict
 from app.schemas.schemas import PredictionRequest
@@ -37,7 +39,7 @@ def test_predict_returns_prediction():
     )
 
     fake_model = Mock()
-    fake_model.predict.return_value = [250000]
+    fake_model.predict.return_value = [np.log1p(250000)]
 
     with patch(
         "app.main.get_model",
@@ -45,4 +47,4 @@ def test_predict_returns_prediction():
     ):
         result = predict(house)
 
-    assert result.predicted_sale_price == 250000.0
+    assert result.predicted_sale_price == pytest.approx(250000.0, rel=1e-6)

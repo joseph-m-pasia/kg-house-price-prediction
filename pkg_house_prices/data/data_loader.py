@@ -1,4 +1,3 @@
-from importlib.resources import path
 
 import pandas as pd
 import numpy as np
@@ -46,7 +45,7 @@ def extract_features_target(data: pd.DataFrame, target_variable: str):
     return X, y
 
 # 3. Split data between train and test sets function
-def split_data(X: pd.DataFrame, y: pd.Series, test_size=0.2, random_state=42, transform_y=False)->tuple:
+def split_data(X: pd.DataFrame, y: pd.Series, test_size=0.2, random_state=42, transform_y=False) -> tuple:
     """
     Split data into training and testing sets.
 
@@ -68,7 +67,7 @@ def split_data(X: pd.DataFrame, y: pd.Series, test_size=0.2, random_state=42, tr
     return X_train, X_test, y_train, y_test
 
 # 4. Save data function
-def save_data(X: pd.DataFrame, y: pd.Series, save_as: str, save_to: str)->None:
+def save_data(X: pd.DataFrame, y: pd.Series, save_as: str, save_to: str) -> None:
     """
     Save DataFrame to CSV file.
     Input: X (features), y (target variable), save_as (filename), save_to (filepath)

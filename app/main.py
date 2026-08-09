@@ -7,9 +7,11 @@ To execute locally:
 """
 
 import pandas as pd
+import numpy as np
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from pkg_house_prices.utils.logger import logger
 
@@ -35,6 +37,14 @@ app = FastAPI(
     title="House Price Prediction API",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5500"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # -----------------------------------------------------------------------------
@@ -106,6 +116,7 @@ def predict(features: PredictionRequest) -> PredictionResponse:
 
     pipeline = get_model()
     prediction = pipeline.predict(X)[0]
+    prediction = np.expm1(prediction)  # Inverse of log1p transformation
 
     # ---------------------------------------------------------
     # Return response object

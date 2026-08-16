@@ -7,8 +7,8 @@ from pkg_house_prices.utils.config import CONFIG
 def _get_project_root():
     """
     Returns the project root folder, works for:
-    - modules (production-ready)
-    - notebooks (development-ready)
+    - Production/Docker: use the application's working directory
+    - Development/notebook: use the configured local project path
     """
     logger.info("_get_project_root() - Determining project root...")
     # __file__ may exist in notebooks but represent a fake path like <ipython-input>

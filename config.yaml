@@ -43,7 +43,7 @@ diagnostics:
   diagnostics_output_path: "pkg_house_prices/data/outputs/diagnostics/"  # folder to save diagnostic outputs (plots, metrics)     
 
 runtype:
-  prod_run: false                    # true if running as production module, false if running in notebook
+  prod_run: true                     # true if running as production module, false if running in notebook
 
 logging:
   log_path: "logs/training.log"      # path to save logs

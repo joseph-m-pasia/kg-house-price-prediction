@@ -1,6 +1,6 @@
 console.log("My script.js loaded");
 
-const form = document.getElementById("prediction-form" );
+const form = document.getElementById("prediction-form");
 const resultSection = document.getElementById("prediction-result");
 const predictedPrice = document.getElementById("predicted-price");
 const errorMessage = document.getElementById("error-message");
@@ -10,36 +10,58 @@ console.log("form =", form);
 console.log("button =", predictButton);
 
 // =========================================================
+// CHECK REQUIRED ELEMENTS
+// =========================================================
+
+if (!form) {
+    console.error("ERROR: prediction-form was not found.");
+}
+
+if (!predictButton) {
+    console.error("ERROR: predict-button was not found.");
+}
+
+
+// =========================================================
 // FORM SUBMISSION
 // =========================================================
 
-
 console.log("ABOUT TO REGISTER SUBMIT HANDLER");
 
+form.addEventListener("submit", async function (event) {
 
-form.addEventListener("click", async function (event) {
+    // Prevent the browser from reloading the page
+    event.preventDefault();
 
     console.log("SUBMIT EVENT FIRED");
 
+    // =====================================================
+    // CLEAR PREVIOUS MESSAGES
+    // =====================================================
 
-    // Clear previous messages
     resultSection.hidden = true;
     errorMessage.hidden = true;
 
-    // Disable button while prediction is running
+    // Clear previous error text
+    errorMessage.textContent = "";
+
+    // =====================================================
+    // DISABLE BUTTON WHILE PREDICTION IS RUNNING
+    // =====================================================
+
     predictButton.disabled = true;
     predictButton.textContent = "Calculating...";
 
 
-// =====================================================
-// COLLECT FORM VALUES
-// =====================================================
+    // =====================================================
+    // COLLECT FORM VALUES
+    // =====================================================
 
     const data = {
 
-    // -----------------------------
-    // Property Quality
-    // -----------------------------
+        // -----------------------------
+        // Property Quality
+        // -----------------------------
 
         OverallQual: Number(
             document.getElementById("overall-qual").value
@@ -50,9 +72,9 @@ form.addEventListener("click", async function (event) {
         ),
 
 
-    // -----------------------------
-    // Living Area
-    // -----------------------------
+        // -----------------------------
+        // Living Area
+        // -----------------------------
 
         TotalBsmtSF: Number(
             document.getElementById("total-bsmt-sf").value
@@ -71,9 +93,9 @@ form.addEventListener("click", async function (event) {
         ),
 
 
-    // -----------------------------
-    // Bathrooms
-    // -----------------------------
+        // -----------------------------
+        // Bathrooms
+        // -----------------------------
 
         FullBath: Number(
             document.getElementById("full-bath").value
@@ -92,9 +114,9 @@ form.addEventListener("click", async function (event) {
         ),
 
 
-    // -----------------------------
-    // Kitchen
-    // -----------------------------
+        // -----------------------------
+        // Kitchen
+        // -----------------------------
 
         KitchenQual:
             document.getElementById("kitchen-qual").value,
@@ -104,9 +126,9 @@ form.addEventListener("click", async function (event) {
         ),
 
 
-    // -----------------------------
-    // Garage
-    // -----------------------------
+        // -----------------------------
+        // Garage
+        // -----------------------------
 
         GarageCars: Number(
             document.getElementById("garage-cars").value
@@ -122,17 +144,17 @@ form.addEventListener("click", async function (event) {
             document.getElementById("garage-type").value,
 
 
-    // -----------------------------
-    // Basement
-    // -----------------------------
+        // -----------------------------
+        // Basement
+        // -----------------------------
 
         BsmtQual:
             document.getElementById("bsmt-qual").value,
 
 
-    // -----------------------------
-    // Features
-    // -----------------------------
+        // -----------------------------
+        // Features
+        // -----------------------------
 
         Fireplaces: Number(
             document.getElementById("fireplaces").value
@@ -142,9 +164,9 @@ form.addEventListener("click", async function (event) {
             document.getElementById("central-air").value,
 
 
-    // -----------------------------
-    // Property
-    // -----------------------------
+        // -----------------------------
+        // Property
+        // -----------------------------
 
         LotShape:
             document.getElementById("lot-shape").value,
@@ -156,9 +178,9 @@ form.addEventListener("click", async function (event) {
             document.getElementById("paved-drive").value,
 
 
-    // -----------------------------
-    // Dates
-    // -----------------------------
+        // -----------------------------
+        // Dates
+        // -----------------------------
 
         YearBuilt: Number(
             document.getElementById("year-built").value
@@ -171,16 +193,70 @@ form.addEventListener("click", async function (event) {
         YrSold: Number(
             document.getElementById("yr-sold").value
         )
+    };
 
+
+    // =====================================================
+    // LOG DATA BEING SENT TO API
+    // =====================================================
+
+    console.log("Data being sent to /predict:", data);
+
+
+    // =====================================================
+    // CHECK FOR INVALID NUMERIC VALUES
+    // =====================================================
+
+    const numericFields = [
+        "OverallQual",
+        "OverallCond",
+        "TotalBsmtSF",
+        "1stFlrSF",
+        "2ndFlrSF",
+        "GrLivArea",
+        "FullBath",
+        "HalfBath",
+        "BsmtFullBath",
+        "BsmtHalfBath",
+        "KitchenAbvGr",
+        "GarageCars",
+        "Fireplaces",
+        "YearBuilt",
+        "YearRemodAdd",
+        "YrSold"
+    ];
+
+    const invalidFields = numericFields.filter(
+        field => Number.isNaN(data[field])
+    );
+
+    if (invalidFields.length > 0) {
+
+        console.error(
+            "Invalid numeric fields:",
+            invalidFields
+        );
+
+        errorMessage.textContent =
+            "Please enter valid values for: " +
+            invalidFields.join(", ");
+
+        errorMessage.hidden = false;
+
+        predictButton.disabled = false;
+        predictButton.textContent = "Predict House Price";
+
+        return;
     }
 
 
-
-// =====================================================
-// SEND REQUEST TO FASTAPI
-// =====================================================
+    // =====================================================
+    // SEND REQUEST TO FASTAPI
+    // =====================================================
 
     try {
+
+        console.log("Sending POST request to /predict...");
 
         const response = await fetch(
             "/predict",
@@ -188,64 +264,197 @@ form.addEventListener("click", async function (event) {
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
                 },
 
-               body: JSON.stringify(data)
+                body: JSON.stringify(data)
             }
         );
 
 
-    // =================================================
-    // HANDLE HTTP ERRORS
-    // =================================================
+        // =================================================
+        // LOG RESPONSE STATUS
+        // =================================================
+
+        console.log(
+            "API response status:",
+            response.status,
+            response.statusText
+        );
+
+
+        // =================================================
+        // HANDLE HTTP ERRORS
+        // =================================================
 
         if (!response.ok) {
 
-            const errorData = await response.json();
+            const contentType =
+                response.headers.get("content-type") || "";
+
+            let errorMessageText =
+                "The prediction request failed.";
+
+            // FastAPI normally returns JSON for validation errors
+            if (contentType.includes("application/json")) {
+
+                const errorData = await response.json();
+
+                console.error(
+                    "API JSON error:",
+                    errorData
+                );
+
+                // FastAPI validation errors
+                if (Array.isArray(errorData.detail)) {
+
+                    errorMessageText =
+                        errorData.detail
+                            .map(error => {
+
+                                const location =
+                                    error.loc
+                                        ? error.loc.join(".")
+                                        : "field";
+
+                                return `${location}: ${error.msg}`;
+                            })
+                            .join(" | ");
+                }
+
+                // Normal FastAPI error
+                else if (errorData.detail) {
+
+                    errorMessageText =
+                        errorData.detail;
+                }
+            }
+
+            // Render may return plain text or HTML
+            else {
+
+                const errorText =
+                    await response.text();
+
+                console.error(
+                    "API non-JSON error:",
+                    errorText
+                );
+
+                if (errorText.trim()) {
+
+                    errorMessageText =
+                        errorText;
+                }
+            }
 
             throw new Error(
-                errorData.detail ||
-                "The prediction request failed."
+                `API error ${response.status}: ${errorMessageText}`
             );
         }
 
 
-    // =================================================
-    // READ RESPONSE
-    // =================================================
+        // =================================================
+        // READ SUCCESS RESPONSE
+        // =================================================
 
-        const result = await response.json();
+        const contentType =
+            response.headers.get("content-type") || "";
+
+        if (!contentType.includes("application/json")) {
+
+            const responseText =
+                await response.text();
+
+            console.error(
+                "Unexpected non-JSON success response:",
+                responseText
+            );
+
+            throw new Error(
+                "The API returned an unexpected response."
+            );
+        }
+
+        const result =
+            await response.json();
+
+        console.log(
+            "Prediction response:",
+            result
+        );
 
 
-    // =================================================
-    // DISPLAY PREDICTION
-    // =================================================
+        // =================================================
+        // CHECK PREDICTION VALUE
+        // =================================================
 
-        predictedPrice.textContent = formatPrice(result.predicted_sale_price);
+        if (
+            result.predicted_sale_price === undefined ||
+            result.predicted_sale_price === null
+        ) {
 
-       resultSection.hidden = false;
+            console.error(
+                "Prediction field missing:",
+                result
+            );
+
+            throw new Error(
+                "The API response does not contain a predicted sale price."
+            );
+        }
 
 
-    } catch (error) {
+        // =================================================
+        // DISPLAY PREDICTION
+        // =================================================
 
-        console.error("Prediction error:", error);
+        predictedPrice.textContent =
+            formatPrice(
+                result.predicted_sale_price
+            );
+
+        resultSection.hidden = false;
+
+        console.log(
+            "Prediction displayed successfully."
+        );
+    }
+
+
+    // =====================================================
+    // HANDLE ERRORS
+    // =====================================================
+
+    catch (error) {
+
+        console.error(
+            "Prediction error:",
+            error
+        );
 
         errorMessage.textContent =
             error.message ||
             "Unable to connect to the prediction API.";
 
         errorMessage.hidden = false;
+    }
 
 
-    } finally {
+    // =====================================================
+    // RE-ENABLE BUTTON
+    // =====================================================
 
-        // Re-enable button
+    finally {
+
         predictButton.disabled = false;
-        predictButton.textContent = "Predict House Price";
+        predictButton.textContent =
+            "Predict House Price";
     }
 
 });
+
 
 // =========================================================
 // FORMAT PRICE

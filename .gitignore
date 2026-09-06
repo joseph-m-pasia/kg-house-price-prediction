@@ -24,7 +24,6 @@ outputs/
 runs/
 logs/
 *.pkl
-*.joblib
 *.h5
 *.pt
 *.onnx

@@ -3,7 +3,9 @@ from pathlib import Path
 from pkg_house_prices.utils.logger import logger
 from pkg_house_prices.utils.helpers import load_ml_model
 
-MODEL_PATH = Path("artifacts") / "model.joblib"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+MODEL_PATH = PROJECT_ROOT / "artifacts" / "model.joblib"
 
 model_bundle = None  # Global variable to hold the loaded model
 

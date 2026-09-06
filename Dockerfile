@@ -20,6 +20,9 @@ RUN pip install .
 # Copy the rest of the project
 COPY . .
 
+# Verify that the trained model is included in the Docker image
+RUN ls -lh /app/artifacts && test -f /app/artifacts/model.joblib
+
 # Expose FastAPI port
 EXPOSE 8000
 

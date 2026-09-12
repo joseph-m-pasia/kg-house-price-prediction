@@ -1,4 +1,5 @@
 ![CI Status](https://github.com/joseph-m-pasia/kg-house-price-prediction/actions/workflows/ci.yml/badge.svg)
+[![Release](https://github.com/joseph-m-pasia/kg-house-price-prediction/actions/workflows/release.yml/badge.svg)](https://github.com/joseph-m-pasia/kg-house-price-prediction/actions/workflows/release.yml)
 
 ## 🏠 House Prices Prediction (Machine Learning Project)
 
